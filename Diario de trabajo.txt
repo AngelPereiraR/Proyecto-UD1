@@ -1,0 +1,6 @@
+Viernes 17 de octubre (2,5 horas): Realización del planning del proyecto y configuración inicial máquina Lubuntu.
+Sábado 18 de octubre (1,25 horas): Configuración de MongoDB Atlas.
+Domingo 19 de octubre (2,5 horas): Terminar pruebas de MongoDB Atlas, configuración de Kafka con script generador de simulación de sensores e instalación de NiFi.
+Lunes 20 de octubre (2,5 horas): Configuración del flujo de trabajo de NiFi: Recepción de datos de Kafka y envío a MongoDB en sus colecciones correspondientes.
+Domingo 28 de octubre (2 horas): Instalación de Flask, creación del proyecto y funcionamiento de la página web.
+Sábado 1 de noviembre (2,5 horas): Troubleshooting de NiFi e instalación y configuración de consultas de Dremio

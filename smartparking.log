@@ -1,0 +1,324 @@
+2025-10-20 16:24:44,074 - __main__ - INFO - ============================================================
+2025-10-20 16:24:44,077 - __main__ - INFO - ============================================================
+2025-10-20 16:24:44,080 - __main__ - INFO - ============================================================
+2025-10-20 16:24:45,385 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.10.221:5000
+2025-10-20 16:24:45,389 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:24:45,395 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:24:46,081 - __main__ - INFO - ============================================================
+2025-10-20 16:24:46,083 - __main__ - INFO - ============================================================
+2025-10-20 16:24:46,088 - __main__ - INFO - ============================================================
+2025-10-20 16:24:46,099 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:24:46,109 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:25:28,289 - werkzeug - INFO -  * Detected change in 'c:\\Users\\ampr2\\Documents\\FormacionProfesionalCFGS\\IABD\\BDA\\Proyecto UD1\\SmartParking Flow\\app.py', reloading
+2025-10-20 16:25:28,371 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:25:29,306 - __main__ - ERROR - X Error inesperado conectando a MongoDB: The DNS query name does not exist: _mongodb._tcp.smartparkingcluster.xxxxx.mongodb.net.
+2025-10-20 16:25:29,310 - __main__ - INFO - ============================================================
+2025-10-20 16:25:29,310 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:25:29,310 - __main__ - INFO - ============================================================
+2025-10-20 16:25:29,310 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:25:29,310 - __main__ - INFO - Servidor: http://0.0.0.0:5000
+2025-10-20 16:25:29,311 - __main__ - INFO - ============================================================
+2025-10-20 16:25:29,321 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:25:29,333 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:26:30,567 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f646918512ec48a6ceb328, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:26:30,570 - __main__ - INFO - ============================================================
+2025-10-20 16:26:30,570 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:26:30,570 - __main__ - INFO - ============================================================
+2025-10-20 16:26:30,570 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:26:30,571 - __main__ - INFO - Servidor: http://0.0.0.0:5000
+2025-10-20 16:26:30,571 - __main__ - INFO - ============================================================
+2025-10-20 16:26:31,949 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.10.221:5000
+2025-10-20 16:26:31,950 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:26:31,957 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:26:37,733 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f64698ca57c0fa9381205f, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:26:37,740 - __main__ - INFO - ============================================================
+2025-10-20 16:26:37,740 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:26:37,741 - __main__ - INFO - ============================================================
+2025-10-20 16:26:37,741 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:26:37,742 - __main__ - INFO - Servidor: http://0.0.0.0:5000
+2025-10-20 16:26:37,743 - __main__ - INFO - ============================================================
+2025-10-20 16:26:37,764 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:26:37,776 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:27:03,944 - werkzeug - INFO -  * Detected change in 'c:\\Users\\ampr2\\Documents\\FormacionProfesionalCFGS\\IABD\\BDA\\Proyecto UD1\\SmartParking Flow\\app.py', reloading
+2025-10-20 16:27:07,046 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:27:23,676 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f646c66aa65f38ddb1ddfc, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:27:23,683 - __main__ - INFO - ============================================================
+2025-10-20 16:27:23,683 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:27:23,684 - __main__ - INFO - ============================================================
+2025-10-20 16:27:23,684 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:27:23,685 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:27:23,685 - __main__ - INFO - ============================================================
+2025-10-20 16:27:23,713 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-20 16:27:23,713 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:27:23,719 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:27:29,498 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f646cc4d739bb1c7bd7981, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:27:29,504 - __main__ - INFO - ============================================================
+2025-10-20 16:27:29,504 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:27:29,504 - __main__ - INFO - ============================================================
+2025-10-20 16:27:29,504 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:27:29,505 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:27:29,505 - __main__ - INFO - ============================================================
+2025-10-20 16:27:29,519 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:27:29,528 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:28:09,386 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:09] "GET / HTTP/1.1" 200 -
+2025-10-20 16:28:09,662 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:09,663 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:09] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:09,966 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:09,967 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:09] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:10,218 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:10] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-20 16:28:13,682 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:13] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-20 16:28:14,723 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:14,735 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:14] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:15,041 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:15,046 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:15] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:19,976 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:19,979 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:19,980 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:19] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:19,982 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:19] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:24,668 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:24,669 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:24] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:24,977 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:24,978 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:24] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:28,755 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:28,755 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:28] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:28,756 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:28,757 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:28] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:31,965 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:31] "GET / HTTP/1.1" 200 -
+2025-10-20 16:28:33,207 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:33,208 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:33] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:33,213 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:33,216 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:33] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:38,836 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:38,837 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:38] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:39,145 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:39,145 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:39] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:28:44,147 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:44,148 - __main__ - ERROR - Base de datos no disponible
+2025-10-20 16:28:44,148 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:44] "[35m[1mGET /api/stats HTTP/1.1[0m" 503 -
+2025-10-20 16:28:44,149 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:28:44] "[35m[1mGET /api/bays HTTP/1.1[0m" 503 -
+2025-10-20 16:42:58,995 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f64a6dcb6f16aa1c9cc272, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:42:58,998 - __main__ - INFO - ============================================================
+2025-10-20 16:42:58,999 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:42:58,999 - __main__ - INFO - ============================================================
+2025-10-20 16:42:58,999 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:42:59,000 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:42:59,000 - __main__ - INFO - ============================================================
+2025-10-20 16:42:59,029 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-20 16:42:59,030 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:42:59,036 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:43:06,070 - __main__ - ERROR - X Error de conexión a MongoDB Atlas: No replica set members found yet, Timeout: 5.0s, Topology Description: <TopologyDescription id: 68f64a755f3a6e01f9482c5a, topology_type: ReplicaSetNoPrimary, servers: [<ServerDescription ('ac-6ar6mmd-shard-00-00.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-01.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>, <ServerDescription ('ac-6ar6mmd-shard-00-02.t3tblwx.mongodb.net', 27017) server_type: Unknown, rtt: None>]>
+2025-10-20 16:43:06,075 - __main__ - INFO - ============================================================
+2025-10-20 16:43:06,076 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:43:06,077 - __main__ - INFO - ============================================================
+2025-10-20 16:43:06,077 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:43:06,077 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:43:06,078 - __main__ - INFO - ============================================================
+2025-10-20 16:43:06,095 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:43:06,109 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:43:50,239 - __main__ - INFO - ============================================================
+2025-10-20 16:43:50,240 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:43:50,240 - __main__ - INFO - ============================================================
+2025-10-20 16:43:50,240 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:43:50,240 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:43:50,240 - __main__ - INFO - ============================================================
+2025-10-20 16:43:50,272 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-20 16:43:50,272 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:43:50,278 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:43:51,966 - __main__ - INFO - ============================================================
+2025-10-20 16:43:51,967 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:43:51,967 - __main__ - INFO - ============================================================
+2025-10-20 16:43:51,967 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:43:51,967 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:43:51,968 - __main__ - INFO - ============================================================
+2025-10-20 16:43:51,980 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:43:51,991 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:44:41,202 - werkzeug - INFO -  * Detected change in 'c:\\Users\\ampr2\\Documents\\FormacionProfesionalCFGS\\IABD\\BDA\\Proyecto UD1\\SmartParking Flow\\app.py', reloading
+2025-10-20 16:44:41,739 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:44:43,776 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-20 16:44:43,785 - __main__ - INFO - ============================================================
+2025-10-20 16:44:43,787 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:44:43,788 - __main__ - INFO - ============================================================
+2025-10-20 16:44:43,788 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:44:43,789 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:44:43,789 - __main__ - INFO - ============================================================
+2025-10-20 16:44:43,819 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:44:43,864 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:44:49,221 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-20 16:44:49,226 - __main__ - INFO - ============================================================
+2025-10-20 16:44:49,226 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:44:49,227 - __main__ - INFO - ============================================================
+2025-10-20 16:44:49,227 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:44:49,227 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:44:49,228 - __main__ - INFO - ============================================================
+2025-10-20 16:44:49,255 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-20 16:44:49,255 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:44:49,261 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:44:50,887 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-20 16:44:50,894 - __main__ - INFO - ============================================================
+2025-10-20 16:44:50,894 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:44:50,895 - __main__ - INFO - ============================================================
+2025-10-20 16:44:50,895 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:44:50,896 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:44:50,896 - __main__ - INFO - ============================================================
+2025-10-20 16:44:50,918 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:44:50,938 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:44:55,259 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:44:55] "GET / HTTP/1.1" 200 -
+2025-10-20 16:44:55,785 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:44:55,791 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:44:55] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:44:55,973 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:44:55,975 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:44:55] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:45:01,281 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:45:01,296 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:01] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:45:01,551 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:45:01,596 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:01] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:45:02,130 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:02] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-10-20 16:45:05,973 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:45:05,975 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:05] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:45:06,090 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:45:06,091 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:06] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:45:10,777 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:45:10,779 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:10] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:45:10,971 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:45:10,975 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:10] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:45:15,858 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:45:15,868 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:15] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:45:15,963 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:45:15,964 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:15] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:45:25,602 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:45:25,602 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:25] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:45:25,773 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:45:25,775 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:45:25] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:46:38,454 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:46:38,456 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:38] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:46:38,570 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:46:38,572 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:38] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:46:43,308 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:46:43,310 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:43] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:46:43,454 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:46:43,457 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:43] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:46:48,495 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:46:48,498 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:48] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:46:48,827 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:46:48,838 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:48] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:46:53,452 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:46:53,455 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:53] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:46:53,468 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:46:53,472 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:46:53] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:47:14,955 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:14] "GET /api/health HTTP/1.1" 200 -
+2025-10-20 16:47:19,608 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:47:19,610 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:19] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:47:47,096 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:47:47,098 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:47] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:47:47,268 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:47:47,270 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:47] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:47:48,567 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:47:48,611 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:48] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:47:49,071 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:47:49,106 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:47:49] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:48:24,812 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-20 16:48:24,821 - __main__ - INFO - ============================================================
+2025-10-20 16:48:24,825 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:48:24,831 - __main__ - INFO - ============================================================
+2025-10-20 16:48:24,835 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:48:24,838 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:48:24,838 - __main__ - INFO - ============================================================
+2025-10-20 16:48:24,882 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-20 16:48:24,883 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-20 16:48:24,889 - werkzeug - INFO -  * Restarting with stat
+2025-10-20 16:48:26,667 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-20 16:48:26,670 - __main__ - INFO - ============================================================
+2025-10-20 16:48:26,670 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-20 16:48:26,671 - __main__ - INFO - ============================================================
+2025-10-20 16:48:26,671 - __main__ - INFO - Base de datos: smartparking
+2025-10-20 16:48:26,671 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-20 16:48:26,672 - __main__ - INFO - ============================================================
+2025-10-20 16:48:26,685 - werkzeug - WARNING -  * Debugger is active!
+2025-10-20 16:48:26,696 - werkzeug - INFO -  * Debugger PIN: 561-626-384
+2025-10-20 16:48:29,733 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:48:29,734 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:29] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:48:29,988 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:48:29,989 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:29] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:48:30,912 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:30] "GET / HTTP/1.1" 200 -
+2025-10-20 16:48:31,754 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:48:31,755 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:31] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:48:32,088 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:48:32,099 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:32] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:48:36,553 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:48:36,554 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:36] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:48:36,666 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:48:36,667 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:48:36] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:00,986 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:49:00,989 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:00] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:01,108 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:49:01,110 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:01] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:49:04,069 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:49:04,070 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:04] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:04,107 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:49:04,108 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:04] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:49:04,795 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:04] "GET / HTTP/1.1" 200 -
+2025-10-20 16:49:05,248 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-20 16:49:05,310 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:49:05,316 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:05] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:05,392 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:49:05,393 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:05] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:49:10,092 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:49:10,092 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:10] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:49:10,370 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:49:10,382 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:10] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:56,746 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:49:56,748 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:56] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:49:56,851 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:49:56,852 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:49:56] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:01,581 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:50:01,582 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:01] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:01,705 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:01,709 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:01] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:02,511 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:02] "GET / HTTP/1.1" 200 -
+2025-10-20 16:50:02,929 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-20 16:50:03,052 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:03,053 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:03] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:03,100 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:50:03,101 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:03] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:22,984 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:50:22,986 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:22] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:22,987 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:22,988 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:22] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:24,814 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:24,816 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:24] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:24,925 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:50:24,927 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:24] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:29,985 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:29,987 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:29] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:30,008 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:50:30,009 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:30] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:50:49,984 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:50:49,986 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:49] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:50:50,296 - __main__ - INFO - API /api/stats: 13/20 ocupadas (65.0%)
+2025-10-20 16:50:50,299 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:50:50] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:51:09,776 - __main__ - INFO - API /api/stats: 8/20 ocupadas (40.0%)
+2025-10-20 16:51:09,777 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:09] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:51:10,007 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:51:10,007 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:10] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:51:29,986 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:51:29,987 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:29] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:51:30,089 - __main__ - INFO - API /api/stats: 9/20 ocupadas (45.0%)
+2025-10-20 16:51:30,090 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:30] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:51:49,786 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:51:49,788 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:49] "GET /api/stats HTTP/1.1" 200 -
+2025-10-20 16:51:49,967 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:51:49,969 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:49] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:51:58,066 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-20 16:51:58,069 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:58] "GET /api/bays HTTP/1.1" 200 -
+2025-10-20 16:51:58,185 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-20 16:51:58,263 - werkzeug - INFO - 127.0.0.1 - - [20/Oct/2025 16:51:58] "GET /api/stats HTTP/1.1" 200 -

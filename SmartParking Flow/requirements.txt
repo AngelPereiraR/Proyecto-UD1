@@ -1,0 +1,15 @@
+# ==================== SMARTPARKING FLASK APPLICATION ====================
+# Dependencias necesarias para ejecutar la aplicación
+
+# Framework web
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# MongoDB driver con soporte para Atlas (mongodb+srv://)
+pymongo[srv]==4.6.1
+
+# Resolución DNS para MongoDB Atlas
+dnspython==2.4.2
+
+# Variables de entorno
+python-dotenv==1.0.0

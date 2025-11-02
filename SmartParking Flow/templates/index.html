@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartParking Cádiz - Monitorización en Tiempo Real</title>
+    <style>
+      /* ==================== VARIABLES Y RESET ==================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #2c3e50;
+        --success-color: #27ae60;
+        --danger-color: #e74c3c;
+        --warning-color: #f39c12;
+        --info-color: #3498db;
+        --bg-gradient-start: #667eea;
+        --bg-gradient-end: #764ba2;
+        --card-bg: #ffffff;
+        --text-color: #2c3e50;
+        --text-muted: #7f8c8d;
+        --border-radius: 12px;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+        --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--bg-gradient-start) 0%,
+          var(--bg-gradient-end) 100%
+        );
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--text-color);
+      }
+
+      /* ==================== CONTENEDOR PRINCIPAL ==================== */
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      /* ==================== HEADER ==================== */
+      .header {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: var(--border-radius);
+        margin-bottom: 25px;
+        box-shadow: var(--shadow-md);
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      /* ==================== PANEL DE ESTADÍSTICAS ==================== */
+      .stats-panel {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        box-shadow: var(--shadow-md);
+        border-left: 5px solid var(--primary-color);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.1) 100%
+        );
+        pointer-events: none;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-card.success {
+        border-left-color: var(--success-color);
+      }
+
+      .stat-card.danger {
+        border-left-color: var(--danger-color);
+      }
+
+      .stat-card.info {
+        border-left-color: var(--info-color);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 8px;
+        line-height: 1;
+      }
+
+      .stat-label {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+      }
+
+      /* ==================== FILTROS ==================== */
+      .filters {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .filter-btn {
+        padding: 14px 28px;
+        border: 2px solid var(--card-bg);
+        background: var(--card-bg);
+        color: var(--primary-color);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: var(--transition);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .filter-btn:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .filter-btn.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: var(--shadow-md);
+      }
+
+      /* ==================== CONTENEDOR DE PARKING ==================== */
+      #parking-container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .level-section {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .level-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #ecf0f1;
+      }
+
+      .level-title {
+        font-size: 1.8rem;
+        color: var(--primary-color);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .level-title::before {
+        content: "🅿️";
+        font-size: 2rem;
+      }
+
+      .level-stats {
+        display: flex;
+        gap: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .level-stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+
+      .level-stat.free {
+        color: var(--success-color);
+      }
+
+      .level-stat.occupied {
+        color: var(--danger-color);
+      }
+
+      /* ==================== GRID DE PLAZAS ==================== */
+      .parking-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 15px;
+      }
+
+      .bay {
+        aspect-ratio: 1;
+        border-radius: var(--border-radius);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        position: relative;
+        box-shadow: var(--shadow-sm);
+        font-weight: 600;
+      }
+
+      .bay:hover {
+        transform: scale(1.08);
+        box-shadow: var(--shadow-lg);
+        z-index: 10;
+      }
+
+      .bay.free {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        color: white;
+      }
+
+      .bay.occupied {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+      }
+
+      .bay.free:hover {
+        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+      }
+
+      .bay.occupied:hover {
+        background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+      }
+
+      .bay-id {
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .bay-status-icon {
+        font-size: 1.5rem;
+      }
+
+      .bay-status-text {
+        font-size: 0.7rem;
+        opacity: 0.95;
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* ==================== TOOLTIP ==================== */
+      .bay-tooltip {
+        position: absolute;
+        bottom: 110%;
+        left: 50%;
+        transform: translateX(-50%) scale(0.95);
+        background: rgba(0, 0, 0, 0.95);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .bay:hover .bay-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+
+      .bay-tooltip::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 8px solid transparent;
+        border-top-color: rgba(0, 0, 0, 0.95);
+      }
+
+      .tooltip-line {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tooltip-line strong {
+        color: #3498db;
+      }
+
+      /* ==================== INDICADORES ==================== */
+      .update-indicator {
+        background: var(--card-bg);
+        padding: 18px 25px;
+        border-radius: var(--border-radius);
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        box-shadow: var(--shadow-md);
+      }
+
+      #connection-status {
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .status-connected .status-dot {
+        background: var(--success-color);
+      }
+
+      .status-disconnected .status-dot {
+        background: var(--danger-color);
+      }
+
+      .status-connected {
+        color: var(--success-color);
+      }
+
+      .status-disconnected {
+        color: var(--danger-color);
+      }
+
+      /* ==================== LOADING ==================== */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        backdrop-filter: blur(5px);
+      }
+
+      .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      /* ==================== RESPONSIVE ==================== */
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .stats-panel {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .parking-grid {
+          grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+          gap: 10px;
+        }
+
+        .level-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        .level-stats {
+          flex-direction: column;
+          gap: 10px;
+          width: 100%;
+        }
+
+        .bay-id {
+          font-size: 0.7rem;
+        }
+
+        .bay-status-icon {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <h1>🚗 SmartParking Cádiz</h1>
+        <p class="subtitle">Monitorización en Tiempo Real · PK-CADIZ-01</p>
+      </header>
+
+      <!-- Panel de estadísticas -->
+      <div class="stats-panel">
+        <div class="stat-card">
+          <div class="stat-number" id="total-bays">-</div>
+          <div class="stat-label">Total Plazas</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-number" id="free-bays">-</div>
+          <div class="stat-label">Libres</div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-number" id="occupied-bays">-</div>
+          <div class="stat-label">Ocupadas</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-number" id="occupancy-rate">-%</div>
+          <div class="stat-label">Ocupación</div>
+        </div>
+      </div>
+
+      <!-- Filtros por nivel -->
+      <div class="filters">
+        <button class="filter-btn active" data-level="all">
+          📊 Todos los niveles
+        </button>
+        <button class="filter-btn" data-level="L1">🅿️ Nivel L1</button>
+        <button class="filter-btn" data-level="L2">🅿️ Nivel L2</button>
+      </div>
+
+      <!-- Contenedor de niveles del parking -->
+      <div id="parking-container"></div>
+
+      <!-- Indicador de actualización -->
+      <div class="update-indicator">
+        <span id="connection-status" class="status-connected">
+          <span class="status-dot"></span>
+          Conectado
+        </span>
+        <span id="last-update">Última actualización: -</span>
+      </div>
+    </div>
+
+    <script>
+      // ==================== CONFIGURACIÓN ====================
+      const API_BASE_URL = window.location.origin;
+      const UPDATE_INTERVAL = 20000; // 20 segundos
+      let updateTimer = null;
+      let currentFilter = "all";
+
+      // ==================== INICIALIZACIÓN ====================
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("🚀 SmartParking UI inicializado");
+        setupFilters();
+        loadParkingData();
+        startAutoUpdate();
+      });
+
+      // ==================== CONFIGURAR FILTROS ====================
+      function setupFilters() {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+
+        filterButtons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            // Remover clase active de todos
+            filterButtons.forEach((b) => b.classList.remove("active"));
+            // Añadir a botón clickeado
+            this.classList.add("active");
+
+            // Aplicar filtro
+            currentFilter = this.getAttribute("data-level");
+            filterParkingLevels(currentFilter);
+          });
+        });
+      }
+
+      // ==================== CARGAR DATOS DEL PARKING ====================
+      async function loadParkingData() {
+        try {
+          showLoading(true);
+
+          // Obtener estadísticas y plazas en paralelo
+          const [statsResponse, baysResponse] = await Promise.all([
+            fetch(`${API_BASE_URL}/api/stats`),
+            fetch(`${API_BASE_URL}/api/bays`),
+          ]);
+
+          if (!statsResponse.ok || !baysResponse.ok) {
+            throw new Error("Error al cargar datos del servidor");
+          }
+
+          const statsData = await statsResponse.json();
+          const baysData = await baysResponse.json();
+
+          // Actualizar UI
+          updateStatsPanel(statsData);
+          renderParkingGrid(baysData.data || baysData);
+          updateLastUpdateTime();
+          updateConnectionStatus(true);
+
+          console.log(
+            `✓ Datos cargados: ${
+              baysData.data ? baysData.data.length : baysData.length
+            } plazas`
+          );
+        } catch (error) {
+          console.error("✗ Error cargando datos:", error);
+          updateConnectionStatus(false);
+          showError("Error al conectar con el servidor. Reintentando...");
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      // ==================== ACTUALIZAR PANEL DE ESTADÍSTICAS ====================
+      function updateStatsPanel(stats) {
+        document.getElementById("total-bays").textContent = stats.total || 0;
+        document.getElementById("free-bays").textContent = stats.free || 0;
+        document.getElementById("occupied-bays").textContent =
+          stats.occupied || 0;
+        document.getElementById("occupancy-rate").textContent = `${
+          stats.occupancy_rate || 0
+        }%`;
+      }
+
+      // ==================== RENDERIZAR GRID DEL PARKING ====================
+      function renderParkingGrid(bays) {
+        const container = document.getElementById("parking-container");
+
+        if (!bays || bays.length === 0) {
+          container.innerHTML =
+            '<div style="text-align:center;padding:40px;color:white;">No hay datos de plazas disponibles</div>';
+          return;
+        }
+
+        // Agrupar plazas por nivel
+        const baysByLevel = {};
+        bays.forEach((bay) => {
+          if (!baysByLevel[bay.level]) {
+            baysByLevel[bay.level] = [];
+          }
+          baysByLevel[bay.level].push(bay);
+        });
+
+        // Ordenar niveles (L1, L2, L3...)
+        const sortedLevels = Object.keys(baysByLevel).sort();
+
+        // Generar HTML
+        container.innerHTML = "";
+        sortedLevels.forEach((level) => {
+          const levelBays = baysByLevel[level];
+          const occupied = levelBays.filter((b) => b.occupied).length;
+          const free = levelBays.length - occupied;
+
+          const levelSection = document.createElement("div");
+          levelSection.className = "level-section";
+          levelSection.setAttribute("data-level", level);
+
+          levelSection.innerHTML = `
+                    <div class="level-header">
+                        <h2 class="level-title">Nivel ${level}</h2>
+                        <div class="level-stats">
+                            <span class="level-stat free">
+                                🟢 ${free} libres
+                            </span>
+                            <span class="level-stat occupied">
+                                🔴 ${occupied} ocupadas
+                            </span>
+                        </div>
+                    </div>
+                    <div class="parking-grid">
+                        ${levelBays.map((bay) => createBayHTML(bay)).join("")}
+                    </div>
+                `;
+
+          container.appendChild(levelSection);
+        });
+
+        // Aplicar filtro actual
+        filterParkingLevels(currentFilter);
+      }
+
+      // ==================== CREAR HTML DE UNA PLAZA ====================
+      function createBayHTML(bay) {
+        const statusClass = bay.occupied ? "occupied" : "free";
+        const statusText = bay.occupied ? "OCUPADA" : "LIBRE";
+        const statusIcon = bay.occupied ? "🔴" : "🟢";
+
+        return `
+                <div class="bay ${statusClass}" data-bay-id="${bay.bay_id}">
+                    <div class="bay-id">${bay.bay_id}</div>
+                    <div class="bay-status-icon">${statusIcon}</div>
+                    <div class="bay-status-text">${statusText}</div>
+                    <div class="bay-tooltip">
+                        <div class="tooltip-line"><strong>📍 ${
+                          bay.bay_id
+                        }</strong></div>
+                        <div class="tooltip-line">Estado: ${statusText}</div>
+                        <div class="tooltip-line">🅿️ Parking: ${
+                          bay.parking_id
+                        }</div>
+                        <div class="tooltip-line">📍 Nivel: ${bay.level}</div>
+                        ${
+                          bay.metrics
+                            ? `
+                            <div class="tooltip-line">🌡️ Temperatura: ${bay.metrics.temperature_c}°C</div>
+                            <div class="tooltip-line">🔋 Batería: ${bay.metrics.battery_pct}%</div>
+                        `
+                            : ""
+                        }
+                        <div class="tooltip-line">⏱️ ${formatTimestamp(
+                          bay.updated_at
+                        )}</div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // ==================== FILTRAR NIVELES VISIBLES ====================
+      function filterParkingLevels(filter) {
+        const levelSections = document.querySelectorAll(".level-section");
+
+        levelSections.forEach((section) => {
+          if (filter === "all") {
+            section.style.display = "block";
+          } else {
+            const level = section.getAttribute("data-level");
+            section.style.display = level === filter ? "block" : "none";
+          }
+        });
+      }
+
+      // ==================== FORMATEAR TIMESTAMP ====================
+      function formatTimestamp(timestamp) {
+        if (!timestamp) return "N/A";
+
+        try {
+          const date = new Date(timestamp);
+          return date.toLocaleString("es-ES", {
+            day: "2-digit",
+            month: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+        } catch (e) {
+          return timestamp;
+        }
+      }
+
+      // ==================== ACTUALIZAR TIEMPO DE ÚLTIMA ACTUALIZACIÓN ====================
+      function updateLastUpdateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleString("es-ES", {
+          day: "2-digit",
+          month: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        document.getElementById(
+          "last-update"
+        ).textContent = `Última actualización: ${timeString}`;
+      }
+
+      // ==================== ACTUALIZAR ESTADO DE CONEXIÓN ====================
+      function updateConnectionStatus(connected) {
+        const statusElement = document.getElementById("connection-status");
+
+        if (connected) {
+          statusElement.innerHTML =
+            '<span class="status-dot"></span> Conectado';
+          statusElement.className = "status-connected";
+        } else {
+          statusElement.innerHTML =
+            '<span class="status-dot"></span> Desconectado';
+          statusElement.className = "status-disconnected";
+        }
+      }
+
+      // ==================== MOSTRAR/OCULTAR LOADING ====================
+      function showLoading(show) {
+        const overlay = document.getElementById("loading-overlay");
+        if (show) {
+          overlay.classList.remove("hidden");
+        } else {
+          overlay.classList.add("hidden");
+        }
+      }
+
+      // ==================== MOSTRAR ERROR ====================
+      function showError(message) {
+        console.error(message);
+        // Podrías añadir un toast o notificación aquí
+      }
+
+      // ==================== INICIAR ACTUALIZACIÓN AUTOMÁTICA ====================
+      function startAutoUpdate() {
+        // Limpiar timer existente si hay
+        if (updateTimer) {
+          clearInterval(updateTimer);
+        }
+
+        // Configurar nuevo timer
+        updateTimer = setInterval(() => {
+          console.log("🔄 Auto-actualización...");
+          loadParkingData();
+        }, UPDATE_INTERVAL);
+
+        console.log(
+          `✓ Auto-actualización configurada cada ${
+            UPDATE_INTERVAL / 1000
+          } segundos`
+        );
+      }
+
+      // ==================== DETENER ACTUALIZACIÓN AUTOMÁTICA ====================
+      function stopAutoUpdate() {
+        if (updateTimer) {
+          clearInterval(updateTimer);
+          updateTimer = null;
+          console.log("⏸️ Auto-actualización pausada");
+        }
+      }
+
+      // ==================== GESTIÓN DE VISIBILIDAD DE PESTAÑA ====================
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          console.log("👁️ Pestaña oculta - pausando actualizaciones");
+          stopAutoUpdate();
+        } else {
+          console.log("👁️ Pestaña visible - reanudando actualizaciones");
+          loadParkingData();
+          startAutoUpdate();
+        }
+      });
+
+      // ==================== MANEJO DE ERRORES GLOBALES ====================
+      window.addEventListener("error", function (e) {
+        console.error("Error global:", e.error);
+      });
+
+      window.addEventListener("unhandledrejection", function (e) {
+        console.error("Promise rechazada:", e.reason);
+      });
+    </script>
+  </body>
+</html>

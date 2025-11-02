@@ -1,0 +1,134 @@
+2025-10-26 12:36:24,003 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-26 12:36:24,006 - __main__ - INFO - ============================================================
+2025-10-26 12:36:24,006 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-26 12:36:24,006 - __main__ - INFO - ============================================================
+2025-10-26 12:36:24,006 - __main__ - INFO - Base de datos: smartparking
+2025-10-26 12:36:24,007 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-26 12:36:24,007 - __main__ - INFO - ============================================================
+2025-10-26 12:36:24,032 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000
+2025-10-26 12:36:24,032 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-26 12:36:24,035 - werkzeug - INFO -  * Restarting with stat
+2025-10-26 12:36:25,082 - __main__ - INFO - V Conectado exitosamente a MongoDB Atlas - Base de datos: smartparking
+2025-10-26 12:36:25,088 - __main__ - INFO - ============================================================
+2025-10-26 12:36:25,088 - __main__ - INFO - Iniciando SmartParking Flask Application
+2025-10-26 12:36:25,089 - __main__ - INFO - ============================================================
+2025-10-26 12:36:25,090 - __main__ - INFO - Base de datos: smartparking
+2025-10-26 12:36:25,090 - __main__ - INFO - Servidor: http://localhost:5000
+2025-10-26 12:36:25,090 - __main__ - INFO - ============================================================
+2025-10-26 12:36:25,109 - werkzeug - WARNING -  * Debugger is active!
+2025-10-26 12:36:25,116 - werkzeug - INFO -  * Debugger PIN: 114-643-709
+2025-10-26 12:36:37,401 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:37] "GET / HTTP/1.1" 200 -
+2025-10-26 12:36:37,767 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:36:37,768 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:36:37,866 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-10-26 12:36:37,904 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:36:37,907 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:36:57,664 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:36:57,666 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:57] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:36:57,901 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:36:57,903 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:36:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:37:17,993 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:37:17,994 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:17] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:37:18,147 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:37:18,152 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:18] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:37:37,667 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:37:37,669 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:37:37,900 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:37:37,903 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:37:57,901 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:37:57,903 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:37:57,973 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:37:57,975 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:37:57] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:38:17,659 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:38:17,660 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:17] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:38:17,892 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:38:17,894 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:17] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:38:37,898 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:38:37,899 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:38:37,967 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:38:37,968 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:38:57,789 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:38:57,791 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:57] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:38:57,929 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:38:57,931 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:38:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:39:18,073 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:39:18,076 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:18] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:39:18,343 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:39:18,344 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:18] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:39:37,786 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:39:37,787 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:39:37,926 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:39:37,930 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:39:57,921 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:39:57,923 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:39:58,081 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:39:58,082 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:39:58] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:40:17,666 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:40:17,669 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:17] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:40:17,907 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:40:17,911 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:17] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:40:37,915 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:40:37,916 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:40:37,990 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:40:37,991 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:40:57,660 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:40:57,661 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:57] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:40:57,900 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:40:57,901 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:40:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:41:17,903 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:41:17,906 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:17] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:41:17,977 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:41:17,978 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:17] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:41:37,908 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:41:37,910 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:37] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:41:37,993 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:41:37,995 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:37] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:41:57,664 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:41:57,665 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:57] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:41:57,902 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:41:57,904 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:41:57] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:42:53,409 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:42:53,411 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:42:53] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:42:53,482 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:42:53,482 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:42:53] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:13,160 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:43:13,162 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:13] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:13,406 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:43:13,408 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:13] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:43:24,343 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:43:24,345 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:24] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:43:24,419 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:43:24,423 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:24] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:25,568 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:43:25,569 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:25] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:25,801 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:43:25,803 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:25] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:43:26,593 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:43:26,594 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:26] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:43:26,658 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:43:26,659 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:26] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:46,291 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:43:46,291 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:46] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:43:46,534 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:43:46,537 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:43:46] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:44:06,543 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:44:06,545 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:06] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:44:06,613 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:44:06,622 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:06] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:44:26,306 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:44:26,309 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:26] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:44:26,531 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:44:26,533 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:26] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:44:46,544 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:44:46,544 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:46] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:44:46,614 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:44:46,615 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:44:46] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:45:06,295 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:45:06,296 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:45:06] "GET /api/stats HTTP/1.1" 200 -
+2025-10-26 12:45:06,528 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:45:06,529 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:45:06] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:45:19,572 - __main__ - INFO - API /api/bays: Retornadas 20 plazas
+2025-10-26 12:45:19,574 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:45:19] "GET /api/bays HTTP/1.1" 200 -
+2025-10-26 12:45:19,624 - __main__ - INFO - API /api/stats: 11/20 ocupadas (55.0%)
+2025-10-26 12:45:19,627 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 12:45:19] "GET /api/stats HTTP/1.1" 200 -
