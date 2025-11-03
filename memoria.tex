@@ -1,0 +1,2364 @@
+\documentclass[12pt, a4paper]{report}
+
+% ==================== PAQUETES ESENCIALES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage[dvipsnames]{xcolor} % Carga 'dvipsnames' para más colores si es necesario
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{grffile}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt} % Soluciona el error de headheight para fancyhdr
+\usepackage{titlesec}
+\usepackage{underscore}
+\usepackage[T1]{fontenc} % Mejor manejo de fuentes y guiones
+
+% ==================== CONFIGURACIÓN DE PÁGINA ====================
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{SmartParking Flow — Monitorización Inteligente}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ==================== CONFIGURACIÓN DE TÍTULOS ====================
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}
+  {1em}
+  {}
+
+% ==================== CONFIGURACIÓN DE LISTINGS (CÓDIGO) ====================
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.98,0.98,0.98}
+
+% Definición del lenguaje JSON
+\lstdefinelanguage{json}{
+    keywords={true,false,null},
+    morestring=[b]'
+}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},     % Aplicará magenta a true, false, null
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},   % Aplicará morado a "..." (keys y values)
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{black},
+    framerule=0.5pt,
+    framesep=3pt,
+    framexleftmargin=3pt
+}
+\lstset{style=mystyle}
+
+% ==================== DATOS DEL PROYECTO ====================
+\title{SmartParking Flow: \\ Monitorización inteligente de plazas con Kafka, NiFi, MongoDB, Flask y Dremio}
+\author{Ángel Manuel Pereira Rodríguez}
+\date{Noviembre 2025}
+
+
+% ==================== INICIO DEL DOCUMENTO ====================
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman} % Números romanos para el índice
+\tableofcontents
+\listoffigures % Añadido índice de figuras
+\newpage
+
+\pagenumbering{arabic} % Números arábigos para el contenido
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% ============================================================
+% CAPÍTULO 1: INTRODUCCIÓN
+% ============================================================
+\chapter{Introducción}
+
+\section{Contextualización}
+Este proyecto se desarrolla en el marco de la iniciativa \textit{SmartCity Cádiz}, que busca aplicar tecnologías avanzadas para mejorar la eficiencia de los servicios urbanos y la calidad de vida de los ciudadanos.
+
+Uno de los desafíos más significativos en las ciudades modernas es la gestión del tráfico y el aparcamiento. El proyecto \textbf{SmartParking Flow} aborda este reto implementando un sistema de monitorización inteligente para aparcamientos. El objetivo es desarrollar e implementar un sistema avanzado para la recolección, almacenamiento y visualización en tiempo real de los datos generados por los sensores de un aparcamiento inteligente.
+
+\section{Justificación}
+La gestión eficiente del aparcamiento reduce la congestión del tráfico, disminuye la contaminación y mejora la experiencia del conductor. Los sistemas tradicionales de gestión de parking carecen de la capacidad de procesar y reaccionar a los datos en tiempo real.
+
+Este proyecto se justifica por la necesidad de implementar un flujo de datos (un \textit{pipeline}) robusto que gestione la información desde el sensor hasta el usuario final. Se emplearán tecnologías de Big Data para optimizar este flujo:
+\begin{itemize}
+    \item \textbf{Apache Kafka} se utilizará para la recepción continua y fiable de millones de mensajes de los sensores.
+    \item \textbf{Apache NiFi} orquestará el flujo, automatizando la ingesta, validación y almacenamiento de los datos.
+    \item \textbf{MongoDB Atlas} servirá como base de datos NoSQL flexible y escalable, capaz de gestionar tanto el estado actual de las plazas como un histórico de eventos.
+    \item \textbf{Flask} y \textbf{Dremio} proporcionarán las capas de visualización y análisis, permitiendo a los usuarios ver la disponibilidad en tiempo real y a los gestores analizar patrones de uso.
+\end{itemize}
+
+\section{Objetivos}
+Los objetivos principales y específicos del proyecto \textit{SmartParking Flow} son los siguientes:
+
+\begin{itemize}
+    \item \textbf{Configurar Apache Kafka:} Desplegar y configurar Kafka para gestionar la transmisión en tiempo real de los datos generados por los sensores, garantizando una comunicación continua y fiable.
+    \item \textbf{Orquestar con Apache NiFi:} Automatizar el flujo de ingesta y procesamiento desde los tópicos de Kafka hasta MongoDB, asegurando que cada mensaje se valide, transforme e inserte correctamente.
+    \item \textbf{Configurar MongoDB:} Estructurar la base de datos en MongoDB Atlas con dos colecciones diferenciadas: una para el histórico de eventos y otra para el estado actual de cada plaza (optimizada para operaciones \textit{upsert}).
+    \item \textbf{Desarrollar aplicación Flask:} Implementar una aplicación web que consuma los datos de MongoDB y muestre un mapa visual del aparcamiento (plazas en verde/rojo) que se actualice automáticamente.
+    \item \textbf{Integrar Dremio:} Utilizar Dremio como plataforma de análisis para ejecutar consultas descriptivas (SQL) sobre los datos de MongoDB, extrayendo indicadores sobre ocupación, uso por franjas horarias, etc..
+    \item \textbf{Garantizar un flujo robusto:} Asegurar que todo el \textit{pipeline} de datos, desde el sensor hasta la visualización, sea robusto, escalable y automatizado.
+\end{itemize}
+
+\section{Alcance del proyecto}
+El alcance de este proyecto cubre el ciclo de vida completo del dato, desde su generación simulada hasta su análisis final.
+
+\begin{itemize}
+    \item \textbf{Entorno de desarrollo:} Configuración de una máquina virtual (VM) con Lubuntu 24.04 en VirtualBox (Ver Anexo~\ref{anexo:mv}).
+    \item \textbf{Generación de datos:} Creación de un script en Python (\texttt{sensores.py}) que simula la actividad de los sensores (cambios de estado, métricas de batería y temperatura) y publica los datos en formato JSON en un tópico de Kafka (Ver Anexo~\ref{anexo:kafka}).
+    \item \textbf{Ingesta y ETL:} Configuración de Apache Kafka (tópico \texttt{parking-events}) y un flujo en Apache NiFi que consume de dicho tópico, procesa los mensajes y los enruta a MongoDB (Ver Anexo~\ref{anexo:nifi}).
+    \item \textbf{Almacenamiento:} Uso de la plataforma cloud MongoDB Atlas para alojar la base de datos \texttt{smartparking} con sus dos colecciones \texttt{bays} y \texttt{events} (Ver Anexo~\ref{anexo:mongo}).
+    \item \textbf{Visualización (Web App):} Desarrollo de una aplicación web con Flask (\texttt{app.py}) que expone una API REST y presenta una interfaz gráfica en \texttt{index.html} que muestra el estado en tiempo real (Ver Anexo~\ref{anexo:flask}).
+    \item \textbf{Análisis (BI):} Instalación y conexión de Dremio a la fuente de MongoDB Atlas para la ejecución de, al menos, 5 consultas SQL analíticas significativas (Ver Anexo~\ref{anexo:dremio}).
+\end{itemize}
+
+\section{Planificación}
+La ejecución del proyecto se distribuyó en varias jornadas de trabajo, cubriendo las diferentes fases de instalación, configuración y desarrollo, tal como se detalla en el diario de trabajo.
+
+
+\newpage
+
+% ============================================================
+% CAPÍTULO 2: MARCO TEÓRICO
+% ============================================================
+\chapter{Marco Teórico}
+Para la implementación del proyecto \textit{SmartParking Flow}, se ha seleccionado un conjunto de tecnologías (un \textit{stack}) que permiten gestionar de forma eficiente el ciclo de vida de los datos en tiempo real.
+
+\section{Apache Kafka}
+Apache Kafka actúa como el sistema nervioso central de la arquitectura. Es una plataforma de \textit{streaming} de eventos distribuida, diseñada para manejar grandes volúmenes de datos con alta velocidad y baja latencia.
+
+En este proyecto, se utiliza para:
+\begin{itemize}
+    \item \textbf{Desacoplar} a los productores de datos (sensores) de los consumidores (NiFi).
+    \item \textbf{Actuar como buffer}, permitiendo que el sistema de ingesta procese los datos a su propio ritmo sin riesgo de pérdida de información, incluso si hay picos de eventos.
+    \item \textbf{Garantizar la fiabilidad} y la tolerancia a fallos en la transmisión de mensajes.
+\end{itemize}
+
+\section{Apache NiFi}
+Apache NiFi (NiagaraFiles) es una herramienta de orquestación y automatización de flujos de datos. Su principal fortaleza radica en su interfaz gráfica de usuario (GUI) basada en flujos, que permite diseñar, controlar y monitorizar la ruta de los datos de forma visual.
+
+Sus funciones clave en el proyecto son:
+\begin{itemize}
+    \item \textbf{Consumir} datos del tópico de Kafka en tiempo real.
+    \item \textbf{Validar y transformar} los mensajes JSON recibidos (por ejemplo, extrayendo atributos).
+    \item \textbf{Enrutar} los datos, implementando la lógica de negocio para la doble inserción en MongoDB (histórico y estado actual).
+\end{itemize}
+
+\section{MongoDB Atlas}
+MongoDB es la plataforma de almacenamiento principal. Es una base de datos NoSQL orientada a documentos, lo que significa que almacena los datos en estructuras flexibles similares a JSON (llamadas BSON).
+
+Se ha elegido MongoDB por:
+\begin{itemize}
+    \item \textbf{Flexibilidad de esquema:} Ideal para los datos de sensores, que pueden evolucionar.
+    \item \textbf{Escalabilidad:} Permite crecer horizontalmente para manejar grandes volúmenes de datos.
+    \item \textbf{Rendimiento:} Optimizado para consultas rápidas y operaciones de actualización eficientes, como el \textit{upsert}.
+\end{itemize}
+Se utiliza \textbf{MongoDB Atlas}, la versión gestionada en la nube, para simplificar el despliegue y la administración de la base de datos.
+
+\section{Flask}
+Flask es un micro-framework web ligero para Python. Se utiliza para construir la capa de presentación y la API REST del proyecto. Su simplicidad permite un desarrollo rápido.
+
+En el proyecto, Flask es responsable de:
+\begin{itemize}
+    \item \textbf{Exponer una API REST} que consulta la colección 'bays' y 'events' de MongoDB.
+    \item \textbf{Renderizar la interfaz web} (\texttt{index.html}) que los usuarios ven en su navegador.
+    \item \textbf{Servir como backend} para las peticiones AJAX (JavaScript) que actualizan el mapa de plazas automáticamente.
+\end{itemize}
+
+\section{Dremio}
+Dremio es una plataforma de análisis de datos que permite ejecutar consultas SQL federadas sobre múltiples fuentes, incluyendo bases de datos NoSQL como MongoDB.
+
+Su papel es el de \textbf{capa de análisis (BI)}. Permite a los gestores del parking ejecutar consultas SQL estándar sobre los datos JSON almacenados en MongoDB, facilitando la creación de informes y la extracción de \textit{insights} (como horas punta, plazas más usadas, etc.) sin necesidad de mover o transformar los datos (ETL) a un almacén de datos tradicional.
+
+\newpage
+
+% ============================================================
+% CAPÍTULO 3: FASE DE ANÁLISIS
+% ============================================================
+\chapter{Fase de Análisis}
+En esta fase se definen los requisitos del sistema, se identifica el formato de los datos y se establecen las bases para el diseño de la arquitectura.
+
+\section{Requisitos Funcionales (RF)}
+Los requisitos funcionales describen \textit{qué} debe hacer el sistema:
+\begin{itemize}
+    \item \textbf{RF-01: Ingesta de eventos.} El sistema debe ser capaz de consumir mensajes en formato JSON desde un tópico de Apache Kafka llamado \texttt{parking-events}.
+    \item \textbf{RF-02: Almacenamiento histórico.} Cada evento de sensor recibido debe ser almacenado de forma inmutable en una colección de MongoDB ('events') para su posterior auditoría o análisis histórico.
+    \item \textbf{RF-03: Almacenamiento de estado actual.} El sistema debe mantener una colección en MongoDB ('bays') que refleje el último estado conocido de cada plaza de aparcamiento. Esta colección debe actualizarse mediante operaciones \textit{upsert}.
+    \item \textbf{RF-04: Visualización de estado.} El sistema debe proveer una interfaz web que muestre un mapa visual del parking, donde cada plaza se represente gráficamente.
+    \item \textbf{RF-05: Codificación por color.} Las plazas en la interfaz web deben cambiar de color (verde para "libre", rojo para "ocupada") basándose en su estado actual en la base de datos.
+    \item \textbf{RF-06: Actualización automática.} La interfaz web debe refrescar el estado de las plazas automáticamente cada pocos segundos sin necesidad de recargar la página.
+    \item \textbf{RF-07: Panel de estadísticas.} La web debe mostrar un resumen estadístico (Total de plazas, Libres, Ocupadas, Porcentaje de Ocupación).
+    \item \textbf{RF-08: Análisis de datos.} El sistema debe permitir a un usuario analista ejecutar consultas SQL descriptivas sobre los datos almacenados en MongoDB.
+\end{itemize}
+
+\section{Requisitos No Funcionales (RNF)}
+Los requisitos no funcionales describen \textit{cómo} debe operar el sistema:
+\begin{itemize}
+    \item \textbf{RNF-01: Rendimiento (Latencia).} El tiempo desde que un sensor emite un evento hasta que se refleja en la interfaz web debe ser de pocos segundos.
+    \item \textbf{RNF-02: Fiabilidad.} El sistema no debe perder mensajes de los sensores. El flujo de datos debe ser tolerante a fallos.
+    \item \textbf{RNF-03: Escalabilidad.} La arquitectura debe ser capaz de escalar horizontalmente para soportar un incremento futuro en el número de sensores, parkings o usuarios.
+    \item \textbf{RNF-04: Mantenibilidad.} El flujo de datos (ETL) debe ser fácilmente modificable y monitorizable, preferiblemente a través de una interfaz visual (cumplido por NiFi).
+    \item \textbf{RNF-05: Flexibilidad.} El esquema de la base de datos debe ser flexible para admitir nuevos campos en los mensajes de los sensores (ej. nuevos tipos de métricas) sin interrumpir el servicio.
+\end{itemize}
+
+\section{Modelo de Datos}
+El formato de datos (contrato) que se utiliza en todo el flujo, desde el productor de Kafka hasta el almacenamiento, es un documento JSON. Este formato es ligero, legible por humanos y fácilmente procesable por todas las herramientas del \textit{stack}.
+
+Un ejemplo del documento enviado por los sensores se define de la siguiente manera:
+
+\begin{lstlisting}[language=json, frame=single, caption={Ejemplo de documento JSON de un evento de sensor.}]
+{
+  "bay\_id": "L1-A-023",
+  "parking\_id": "PK-CADIZ-01",
+  "level": "L1",
+  "occupied": true,
+  "last\_event\_ts": "2025-10-07T10:15:30Z",
+  "metrics": {
+    "temperature\_c": 23.4,
+    "battery\_pct": 78
+  },
+  "updated\_at": "2025-10-07T10:15:31Z"
+}
+\end{lstlisting}
+
+\newpage
+
+% ============================================================
+% CAPÍTULO 4: FASE DE DISEÑO
+% ============================================================
+\chapter{Fase de Diseño}
+Basado en los requisitos analizados, se diseña una arquitectura de sistema que cumple con los objetivos funcionales y no funcionales.
+
+\section{Arquitectura del Sistema}
+La arquitectura diseñada sigue un patrón de \textit{pipeline} de datos en tiempo real, separando las responsabilidades en capas claras. El flujo de datos es unidireccional, desde los sensores hasta las aplicaciones de usuario (Figura \ref{fig:arquitectura}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{04. Fotos NiFi/Nifi-90.png}
+    \caption{Diagrama de la arquitectura del sistema (Flujo de NiFi).}
+    \label{fig:arquitectura}
+\end{figure}
+
+El flujo de datos es el siguiente:
+\begin{enumerate}
+    \item \textbf{Sensores (Simulados):} El script \texttt{sensores.py} genera los datos JSON y los publica en el tópico \texttt{parking-events} de Kafka.
+    \item \textbf{Broker (Kafka):} Recibe y almacena temporalmente los mensajes en el tópico.
+    \item \textbf{ETL (NiFi):} Un flujo de NiFi consume los mensajes de Kafka.
+    \item \textbf{Bifurcación (NiFi):} El flujo se divide en dos ramas paralelas:
+    \begin{itemize}
+        \item \textbf{Rama Histórica:} Los datos se insertan directamente en la colección \texttt{events} de MongoDB.
+        \item \textbf{Rama de Estado:} Los datos se utilizan para realizar un \textit{upsert} en la colección \texttt{bays}.
+    \end{itemize}
+    \item \textbf{Almacenamiento (MongoDB Atlas):} La base de datos en la nube persiste los datos.
+    \item \textbf{Visualización (Flask):} La aplicación Flask consulta la colección \texttt{bays} para obtener el estado actual y lo sirve a través de su API REST.
+    \item \textbf{Análisis (Dremio):} Dremio se conecta directamente a MongoDB Atlas para ejecutar consultas SQL sobre las colecciones \texttt{bays} y \texttt{events}.
+\end{enumerate}
+
+\section{Diseño de Base de Datos (MongoDB)}
+Se ha diseñado una base de datos en MongoDB Atlas llamada \texttt{smartparking}, que contiene dos colecciones principales para satisfacer los requisitos RF-02 y RF-03.
+
+\subsection{Colección \texttt{bays}}
+Esta colección cumple con el requisito RF-03 de mantener el estado actual.
+\begin{itemize}
+    \item \textbf{Propósito:} Almacenar el documento más reciente y completo de cada \texttt{bay\_id} único.
+    \item \textbf{Operación de NiFi:} \texttt{upsert}.
+    \item \textbf{Clave de Upsert:} \texttt{bay\_id}.
+    \item \textbf{Índices:} Se crea un índice único sobre el campo \texttt{bay\_id} para garantizar que no haya duplicados y acelerar las operaciones de \textit{upsert} y las consultas de la API (Ver Anexo \ref{anexo:mongo}, Figura \ref{anexo:mongo-33}).
+\end{itemize}
+
+\subsection{Colección \texttt{events}}
+Esta colección cumple con el requisito RF-02 de mantener un histórico.
+\begin{itemize}
+    \item \textbf{Propósito:} Almacenar un registro inmutable de cada evento de sensor recibido.
+    \item \textbf{Operación de NiFi:} \texttt{insert}.
+    \item \textbf{Índices:} Se crea un índice compuesto descendente sobre \texttt{last\_event\_ts} y \texttt{bay\_id} para optimizar las consultas de series temporales o la auditoría de una plaza específica (Ver Anexo \ref{anexo:mongo}, Figura \ref{anexo:mongo-37}).
+\end{itemize}
+
+\section{Diseño del Flujo de NiFi}
+El flujo de NiFi es el motor de ETL que implementa la lógica de negocio (Ver Figura \ref{anexo:nifi-90}). El diseño utiliza los siguientes procesadores principales:
+\begin{itemize}
+    \item \textbf{ConsumeKafkaRecord\_2\_6:} Configurado para conectarse al \textit{bootstrap server} de Kafka (ej. \texttt{localhost:9092}) y suscribirse al tópico \texttt{parking-events}. Utiliza un \texttt{JsonTreeReader} para interpretar los datos entrantes.
+    \item \textbf{EvaluateJsonPath:} Extrae los campos clave del cuerpo del JSON (como \texttt{\$.bay\_id}, \texttt{\$.occupied}, \texttt{\$.metrics.battery\_pct}, etc.) y los almacena como atributos del \textit{FlowFile}.
+    \item \textbf{RouteOnAttribute:} Utilizado para validar que los campos requeridos (ej. \texttt{bay\_id}) no sean nulos o vacíos, enrutando los \textit{FlowFiles} válidos a la rama "matched".
+    \item \textbf{Insert to Events Collection (PutMongoRecord):}
+    \begin{itemize}
+        \item \textbf{Conexión:} Usa un \texttt{MongoDBControllerService} con la URI de conexión de Atlas (Ver Anexo \ref{anexo:nifi}, Figura \ref{anexo:nifi-63}).
+        \item \textbf{Configuración:} Apunta a \texttt{Mongo Database Name: smartparking} y \texttt{Mongo Collection Name: events} (Ver Anexo \ref{anexo:nifi}, Figura \ref{anexo:nifi-68}).
+        \item \textbf{Operación:} Modo \texttt{insert}.
+    \end{itemize}
+    \item \textbf{Upsert to Bays Collection (PutMongo):}
+    \begin{itemize}
+        \item \textbf{Conexión:} Utiliza el mismo \texttt{MongoDBControllerService}.
+        \item \textbf{Configuración:} Apunta a \texttt{Mongo Database Name: smartparking} y \texttt{Mongo Collection Name: bays}.
+        \item \textbf{Operación:} Modo \texttt{upsert} con \texttt{Update Query Key: bay\_id} (Ver Anexo \ref{anexo:nifi}, Figura \ref{anexo:nifi-81}).
+    \end{itemize}
+    \item \textbf{LogAttribute:} Se utiliza para registrar errores (en las relaciones \textit{failure} o \textit{unmatched}) y facilitar la depuración.
+\end{itemize}
+
+\section{Diseño de la API REST (Flask)}
+Para cumplir con los requisitos de visualización (RF-04, RF-07), la aplicación Flask (\texttt{app.py}) expone los siguientes \textit{endpoints} REST:
+
+\begin{itemize}
+    \item \textbf{GET /:}
+    \begin{itemize}
+        \item \textbf{Descripción:} Sirve la página web principal \texttt{index.html}.
+        \item \textbf{Respuesta:} \texttt{text/html}
+    \end{itemize}
+    \item \textbf{GET /api/bays:}
+    \begin{itemize}
+        \item \textbf{Descripción:} Obtiene el estado actual de todas las plazas. Es consumido por el JavaScript de la web para refrescar el mapa.
+        \item \textbf{Lógica:} Ejecuta un \texttt{db.bays.find(\{\}, \{'\_id': 0\})}
+        \item \textbf{Respuesta:} \texttt{application/json} con una lista de documentos de plazas.
+    \end{itemize}
+    \item \textbf{GET /api/stats:}
+    \begin{itemize}
+        \item \textbf{Descripción:} Obtiene las estadísticas agregadas para el panel principal.
+        \item \textbf{Lógica:} Utiliza un \textit{pipeline} de agregación de MongoDB (\texttt{db.bays.aggregate(...)}) para calcular los totales y agrupar por nivel.
+        \item \textbf{Respuesta:} \texttt{application/json} con un objeto que contiene \texttt{total}, \texttt{occupied}, \texttt{free}, \texttt{occupancy\_rate} y \texttt{levels}.
+    \end{itemize}
+    \item \textbf{GET /api/health:}
+    \begin{itemize}
+        \item \textbf{Descripción:} Endpoint de monitorización para verificar el estado de la aplicación y su conexión a MongoDB.
+        \item \textbf{Respuesta:} \texttt{application/json} con estado \texttt{healthy} o \texttt{unhealthy}.
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% APÉNDICES
+% ============================================================
+\appendix % Esto cambia 'Capítulo' por 'Anexo'
+
+% ============================================================
+% ANEXO A: MÁQUINA VIRTUAL
+% ============================================================
+\chapter{Anexo A: Configuración de la Máquina Virtual (Lubuntu)}
+\label{anexo:mv}
+
+Esta sección muestra el proceso de instalación y configuración de la máquina virtual Lubuntu 24.04 sobre la cual se despliega el entorno de desarrollo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-01.png}
+    \caption{Configuración inicial de la MV "Lubuntu Proyecto UD1" en VirtualBox.}
+    \label{anexo:mv-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-02.png}
+    \caption{Menú de arranque (GRUB) de la ISO de Lubuntu.}
+    \label{anexo:mv-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-03.png}
+    \caption{Inicio del instalador de Lubuntu.}
+    \label{anexo:mv-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-04.png}
+    \caption{Selección de "Install Lubuntu".}  
+    \label{anexo:mv-04}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-05.png}
+    \caption{Selección de idioma (Español).}
+    \label{anexo:mv-05}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-06.png}
+    \caption{Selección de ubicación (Madrid).}
+    \label{anexo:mv-06}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-07.png}
+    \caption{Selección de teclado (Spanish).}
+    \label{anexo:mv-07}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-08.png}
+    \caption{Selección de tipo de instalación (Normal).}
+    \label{anexo:mv-08}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-09.png}
+    \caption{Configuración de particiones (Borrar disco).}
+    \label{anexo:mv-09}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-10.png}
+    \caption{Creación del usuario y nombre de equipo.}
+    \label{anexo:mv-10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-11.png}
+    \caption{Resumen de la instalación.}
+    \label{anexo:mv-11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-12.png}
+    \caption{Confirmación de inicio de instalación.}
+    \label{anexo:mv-12}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-13.png}
+    \caption{Proceso de instalación.}
+    \label{anexo:mv-13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-14.png}
+    \caption{Instalación finalizada.}
+    \label{anexo:mv-14}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-15.png}
+    \caption{Extracción del disco de instalación virtual al reiniciar.}
+    \label{anexo:mv-15}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-16.png}
+    \caption{Escritorio de Lubuntu y apertura de QTerminal.}
+    \label{anexo:mv-16}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-17.png}
+    \caption{Actualización de paquetes ('sudo apt update').}
+    \label{anexo:mv-17}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-18.png}
+    \caption{Insertando imagen de CD de las "Guest Additions" de VirtualBox.}
+    \label{anexo:mv-18}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-19.png}
+    \caption{Aviso de medio extraíble (Guest Additions).}
+    \label{anexo:mv-19}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-20.png}
+    \caption{Navegación al directorio de las Guest Additions.}
+    \label{anexo:mv-20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-21.png}
+    \caption{Ejecución del script de instalación \texttt{VBoxLinuxAdditions.run}.}
+    \label{anexo:mv-21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-22.png}
+    \caption{Extracción del disco virtual de las Guest Additions.}
+    \label{anexo:mv-22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-23.png}
+    \caption{Aviso de forzar desmontaje del disco óptico.}
+    \label{anexo:mv-23}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-24.png}
+    \caption{Habilitando portapapeles bidireccional en VirtualBox.}
+    \label{anexo:mv-24}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-25.png}
+    \caption{Terminal de Lubuntu post-reinicio.}
+    \label{anexo:mv-25}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-26.png}
+    \caption{Comprobación de la dirección IP de la MV ('ip addr') - \texttt{192.168.1.73}.}
+    \label{anexo:mv-26}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-27.png}
+    \caption{Búsqueda de Símbolo del sistema (CMD) en el anfitrión (Windows).}
+    \label{anexo:mv-27}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-28.png}
+    \caption{Prueba de conectividad (ping) desde el anfitrión (Windows) a la MV.}
+    \label{anexo:mv-28}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-29.png}
+    \caption{Instalación de paquetes base en Lubuntu ('curl', 'wget', 'git', 'python3-pip').}
+    \label{anexo:mv-29}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{01. Fotos MV Lubuntu/MV-Lubuntu-30.png}
+    \caption{Creación de directorios del proyecto y comprobación de versiones ('python3' y 'pip').}
+    \label{anexo:mv-30}
+\end{figure}
+
+\newpage
+
+% ============================================================
+% ANEXO B: MONGODB ATLAS
+% ============================================================
+\chapter{Anexo B: Configuración de MongoDB Atlas}
+\label{anexo:mongo}
+
+Proceso de creación de la cuenta, despliegue del cluster, configuración de la seguridad y creación de la base de datos y colecciones en MongoDB Atlas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-01.png}
+    \caption{Búsqueda inicial de MongoDB Atlas.}
+    \label{anexo:mongo-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-02.png}
+    \caption{Formulario de registro en MongoDB Atlas.}
+    \label{anexo:mongo-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-03.png}
+    \caption{Paso de verificación de correo electrónico.}
+    \label{anexo:mongo-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-04.png}
+    \caption{Recepción del correo de verificación.}
+    \label{anexo:mongo-04}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-05.png}
+    \caption{Contenido del correo "Verify Your MongoDB Email Address".}
+    \label{anexo:mongo-05}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-06.png}
+    \caption{Confirmación de email verificado.}
+    \label{anexo:mongo-06}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-07.png}
+    \caption{Configuración opcional de Multi-Factor Authentication (MFA).}
+    \label{anexo:mongo-07}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-08.png}
+    \caption{Recepción del código de verificación de MongoDB.}
+    \label{anexo:mongo-08}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-09.png}
+    \caption{Pantalla de configuración de seguridad de la cuenta.}
+    \label{anexo:mongo-09}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-10.png}
+    \caption{Pantalla de bienvenida a la nueva navegación de Atlas.}
+    \label{anexo:mongo-10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-11.png}
+    \caption{Panel de "All Projects" inicial.}
+    \label{anexo:mongo-11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-12.png}
+    \caption{Renombrando el proyecto a "SmartParking Flow".}
+    \label{anexo:mongo-12}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-13.png}
+    \caption{Panel principal del proyecto "SmartParking Flow".}
+    \label{anexo:mongo-13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-14.png}
+    \caption{Configuración del cluster gratuito (M0).}
+    \label{anexo:mongo-14}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-15.png}
+    \caption{Verificación Captcha para la creación del cluster.}
+    \label{anexo:mongo-15}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-16.png}
+    \caption{Creación del usuario de la base de datos.}
+    \label{anexo:mongo-16}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-17.png}
+    \caption{Confirmación de creación de usuario.}
+    \label{anexo:mongo-17}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-18.png}
+    \caption{Selección del método de conexión al cluster.}
+    \label{anexo:mongo-18}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-19.png}
+    \caption{Cargando datos de ejemplo (sample data).}
+    \label{anexo:mongo-19}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-20.png}
+    \caption{Vista del cluster tras finalizar la carga de datos de ejemplo.}
+    \label{anexo:mongo-20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-21.png}
+    \caption{Configuración de "IP Access List" (IP actual).}
+    \label{anexo:mongo-21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-22.png}
+    \caption{Añadiendo una nueva entrada a "IP Access List".}
+    \label{anexo:mongo-22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-23.png}
+    \caption{Añadiendo '0.0.0.0/0' (Allow Access From Anywhere).}
+    \label{anexo:mongo-23}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-24.png}
+    \caption{"IP Access List" actualizada con acceso global.}
+    \label{anexo:mongo-24}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-25.png}
+    \caption{Vista del cluster con datos de ejemplo cargados (74.12 MB).}
+    \label{anexo:mongo-25}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-26.png}
+    \caption{Explorador de datos (Data Explorer) viendo 'sample_mflix.comments'.}
+    \label{anexo:mongo-26}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-27.png}
+    \caption{Creación de la base de datos 'smartparking' y la colección 'events'.}
+    \label{anexo:mongo-27}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-28.png}
+    \caption{Vista de la colección 'events' vacía.}
+    \label{anexo:mongo-28}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-29.png}
+    \caption{Creación de la colección 'bays'.}
+    \label{anexo:mongo-29}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-30.png}
+    \caption{Vista de las colecciones 'bays' y 'events' creadas.}
+    \label{anexo:mongo-30}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-31.png}
+    \caption{Creación del índice para la colección 'bays'.}
+    \label{anexo:mongo-31}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-32.png}
+    \caption{Confirmación de creación de índice en 'bays' sobre 'bay_id'.}
+    \label{anexo:mongo-32}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-33.png}
+    \caption{Índice 'bay_id_1' creado y listado en la colección 'bays'.}
+    \label{anexo:mongo-33}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-34.png}
+    \caption{Vista de la pestaña "Indexes" de la colección 'events'.}
+    \label{anexo:mongo-34}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-35.png}
+    \caption{Definición del índice compuesto para la colección 'events'.}
+    \label{anexo:mongo-35}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-36.png}
+    \caption{Confirmación de creación de índice en 'events'.}
+    \label{anexo:mongo-36}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-37.png}
+    \caption{Índice 'bay_event_ts_desc_idx' creado en la colección 'events'.}
+    \label{anexo:mongo-37}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-38.png}
+    \caption{Vista del cluster (Data Size: 116.16 MB).}
+    \label{anexo:mongo-38}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-39.png}
+    \caption{Opciones de conexión al cluster.}
+    \label{anexo:mongo-39}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-40.png}
+    \caption{Obteniendo la cadena de conexión (Connection String) para Python.}
+    \label{anexo:mongo-40}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-41.png}
+    \caption{Instalando 'pymongo[srv]' en el anfitrión (Windows).}
+    \label{anexo:mongo-41}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-42.png}
+    \caption{Script de prueba \texttt{pruebas.py} en VS Code (Windows).}
+    \label{anexo:mongo-42}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-43.png}
+    \caption{Resultado de la ejecución del script de prueba en Windows.}
+    \label{anexo:mongo-43}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-44.png}
+    \caption{Documento de prueba "TEST-001" insertado en 'smartparking.bays'.}
+    \label{anexo:mongo-44}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-45.png}
+    \caption{Vista del documento "TEST-001" en Data Explorer.}
+    \label{anexo:mongo-45}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-46.png}
+    \caption{Documento "TEST-001" marcado para eliminación.}
+    \label{anexo:mongo-46}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-47.png}
+    \caption{Colección 'smartparking.bays' vacía tras borrado.}
+    \label{anexo:mongo-47}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-48.png}
+    \caption{Instalando 'python3-venv' en la MV de Lubuntu.}
+    \label{anexo:mongo-48}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-49.png}
+    \caption{Instalando 'pymongo[srv]' en el entorno virtual de Lubuntu.}
+    \label{anexo:mongo-49}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-50.png}
+    \caption{Editando el script de prueba \texttt{pruebas.py} en Lubuntu (nano).}
+    \label{anexo:mongo-50}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-51.png}
+    \caption{Resultado de la ejecución del script de prueba en Lubuntu.}
+    \label{anexo:mongo-51}
+\end{figure}
+
+\newpage
+
+% ============================================================
+% ANEXO C: APACHE KAFKA
+% ============================================================
+\chapter{Anexo C: Configuración de Apache Kafka}
+\label{anexo:kafka}
+
+Instalación y configuración de Apache Kafka en la máquina virtual, incluyendo la descarga, configuración de servicios, creación de tópicos y el desarrollo del script de simulación de sensores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-01.png}
+    \caption{Descarga de Apache Kafka ('wget').}
+    \label{anexo:kafka-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-02.png}
+    \caption{Descompresión del archivo ('tar -xzf') y renombrado de la carpeta.}
+    \label{anexo:kafka-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-03.png}
+    \caption{Creación del directorio de datos ('/opt/kafka-data') y edición de 'server.properties'.}
+    \label{anexo:kafka-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-04.png}
+    \caption{Configuración de 'server.properties': 'node.id' y 'controller.quorum.bootstrap.servers'.}
+    \label{anexo:kafka-04}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-05.png}
+    \caption{Configuración de 'server.properties': 'listeners' y 'advertised.listeners'.}
+    \label{anexo:kafka-05}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-06.png}
+    \caption{Configuración de 'server.properties': 'log.dirs'.}
+    \label{anexo:kafka-06}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-07.png}
+    \caption{Configuración de 'server.properties': Políticas de retención de logs.}
+    \label{anexo:kafka-07}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-08.png}
+    \caption{Instalación de Java (OpenJDK 11 y 21) en la MV.}
+    \label{anexo:kafka-08}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-09.png}
+    \caption{Selección de la versión de Java (JDK 11) usando 'update-alternatives'.}
+    \label{anexo:kafka-09}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-10.png}
+    \caption{Selección de la versión de 'javac' (JDK 11).}
+    \label{anexo:kafka-10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-11.png}
+    \caption{Editando el script 'kafka-run-class.sh'.}
+    \label{anexo:kafka-11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-12.png}
+    \caption{Añadiendo 'JAVA_HOME' al script 'kafka-run-class.sh'.}
+    \label{anexo:kafka-12}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-13.png}
+    \caption{Formateo del directorio de almacenamiento de Kafka ('kafka-storage.sh format').}
+    \label{anexo:kafka-13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-14.png}
+    \caption{Inicio del servidor Kafka ('kafka-server-start.sh').}
+    \label{anexo:kafka-14}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-15.png}
+    \caption{Editando el archivo '~/.bashrc' para añadir variables de entorno.}
+    \label{anexo:kafka-15}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-16.png}
+    \caption{Añadiendo 'KAFKA_HOME' y actualizando el 'PATH' en '~/.bashrc'.}
+    \label{anexo:kafka-16}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-17.png}
+    \caption{Recargando la configuración de la terminal ('source ~/.bashrc').}
+    \label{anexo:kafka-17}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-18.png}
+    \caption{Comando para crear un nuevo tópico de Kafka.}
+    \label{anexo:kafka-18}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-19.png}
+    \caption{Creación del tópico \texttt{parking-events} y listado de tópicos.}
+    \label{anexo:kafka-19}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-20.png}
+    \caption{Instalación de la librería 'kafka-python' con 'pip3'.}
+    \label{anexo:kafka-20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-21.png}
+    \caption{Código del simulador de sensores: 'ParkingSensorSimulator.__init__'.}
+    \label{anexo:kafka-21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-22.png}
+    \caption{Código del simulador de sensores: 'ParkingSensorSimulator.generate_event'.}
+    \label{anexo:kafka-22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-23.png}
+    \caption{Código del publicador de Kafka: 'KafkaPublisher'.}
+    \label{anexo:kafka-23}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-24.png}
+    \caption{Código de la función 'run_simulation' (lógica principal del productor).}
+    \label{anexo:kafka-24}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-25.png}
+    \caption{Código del 'argparse' para configurar el simulador desde la terminal.}
+    \label{anexo:kafka-25}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-26.png}
+    \caption{Dando permisos de ejecución ('chmod +x') al script del simulador.}
+    \label{anexo:kafka-26}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-27.png}
+    \caption{Ejecución del script simulador de sensores ('parking\_simulator.py').}
+    \label{anexo:kafka-27}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-28.png}
+    \caption{Comando para iniciar un consumidor de consola en formato JSON.}
+    \label{anexo:kafka-28}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{03. Fotos Kafka/Kafka-29.png}
+    \caption{Consumidor de consola de Kafka mostrando los mensajes JSON entrantes.}
+    \label{anexo:kafka-29}
+\end{figure}
+
+\newpage
+
+% ============================================================
+% ANEXO D: APACHE NIFI
+% ============================================================
+\chapter{Anexo D: Configuración del Flujo de NiFi}
+\label{anexo:nifi}
+
+Instalación, configuración y diseño del \textit{pipeline} de datos en Apache NiFi para procesar y enrutar los eventos de Kafka a MongoDB.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-01.png}
+    \caption{Descarga del binario de Apache NiFi ('wget').}
+    \label{anexo:nifi-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-02.png}
+    \caption{Descompresión del archivo ('unzip').}
+    \label{anexo:nifi-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-03.png}
+    \caption{Accediendo al directorio de configuración ('conf').}
+    \label{anexo:nifi-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-04.png}
+    \caption{Editando 'nifi.properties': 'nifi.web.http.host=0.0.0.0'.}
+    \label{anexo:nifi-04}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-05.png}
+    \caption{Editando 'nifi.properties': 'nifi.sensitive.props.key'.}
+    \label{anexo:nifi-05}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-06.png}
+    \caption{Editando 'nifi.properties': 'nifi.remote.input.host'.}
+    \label{anexo:nifi-06}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-07.png}
+    \caption{Editando 'nifi.properties': 'nifi.security.user.authorizer'.}
+    \label{anexo:nifi-07}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-08.png}
+    \caption{Accediendo al archivo 'bootstrap.conf'.}
+    \label{anexo:nifi-08}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-09.png}
+    \caption{Editando 'bootstrap.conf': Configuración de memoria JVM (Xms2g, Xmx2g).}
+    \label{anexo:nifi-09}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-10.png}
+    \caption{Editando '~/.bashrc' para añadir 'NIFI_HOME'.}
+    \label{anexo:nifi-10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-11.png}
+    \caption{Añadiendo 'NIFI_HOME' y actualizando el 'PATH' en '~/.bashrc'.}
+    \label{anexo:nifi-11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-12.png}
+    \caption{Accediendo al script de entorno 'nifi-env.sh'.}
+    \label{anexo:nifi-12}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-13.png}
+    \caption{Estableciendo 'JAVA_HOME' en 'nifi-env.sh'.}
+    \label{anexo:nifi-13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-14.png}
+    \caption{Iniciando el servicio de NiFi ('nifi.sh start').}
+    \label{anexo:nifi-14}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-15.png}
+    \caption{Comprobando los logs de inicio de NiFi ('tail -f nifi-app.log').}
+    \label{anexo:nifi-15}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-16.png}
+    \caption{Accediendo a la interfaz web de NiFi (localhost:8080/nifi).}
+    \label{anexo:nifi-16}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-17.png}
+    \caption{Arrastrando un nuevo procesador al canvas.}
+    \label{anexo:nifi-17}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-18.png}
+    \caption{Buscando el procesador 'ConsumeKafka'.}
+    \label{anexo:nifi-18}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-19.png}
+    \caption{Configuración (Settings) del procesador 'ConsumeKafka'.}
+    \label{anexo:nifi-19}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-20.png}
+    \caption{Configuración (Properties) del procesador 'ConsumeKafka'.}
+    \label{anexo:nifi-20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-21.png}
+    \caption{Creación de un nuevo Controller Service: 'Kafka3ConnectionService'.}
+    \label{anexo:nifi-21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-22.png}
+    \caption{Asignando el 'Kafka3ConnectionService' al procesador.}
+    \label{anexo:nifi-22}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-23.png}
+    \caption{Guardando cambios en el procesador.}
+    \label{anexo:nifi-23}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-24.png}
+    \caption{Accediendo a la configuración del Controller Service ('Kafka3ConnectionService').}
+    \label{anexo:nifi-24}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-25.png}
+    \caption{Configurando el 'Kafka3ConnectionService' (Bootstrap Servers: localhost:9092).}
+    \label{anexo:nifi-25}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-26.png}
+    \caption{Controller Service 'Kafka3ConnectionService' en estado "Disabled".}
+    \label{anexo:nifi-26}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-27.png}
+    \caption{Habilitando el 'Kafka3ConnectionService'.}
+    \label{anexo:nifi-27}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-28.png}
+    \caption{Controller Service 'Kafka3ConnectionService' siendo habilitado.}
+    \label{anexo:nifi-28}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-29.png}
+    \caption{Controller Service 'Kafka3ConnectionService' en estado "Enabled".}
+    \label{anexo:nifi-29}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-30.png}
+    \caption{Configuración final del procesador 'ConsumeKafka' (Tópico: parking-events).}
+    \label{anexo:nifi-30}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-31.png}
+    \caption{Procesador 'Consume Parking Sensors' en el canvas.}
+    \label{anexo:nifi-31}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-32.png}
+    \caption{Añadiendo el procesador 'EvaluateJsonPath'.}
+    \label{anexo:nifi-32}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-33.png}
+    \caption{Procesadores 'Consume Parking Sensors' y 'EvaluateJsonPath' en el canvas.}
+    \label{anexo:nifi-33}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-34.png}
+    \caption{Creando conexión "success" entre 'ConsumeKafka' y 'EvaluateJsonPath'.}
+    \label{anexo:nifi-34}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-35.png}
+    \caption{Configuración (Properties) de 'EvaluateJsonPath': 'Destination: flowfile-attribute'.}
+    \label{anexo:nifi-35}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-36.png}
+    \caption{Configuración (Properties) de 'EvaluateJsonPath': Extracción de atributos (battery, bay\_id, ...).}
+    \label{anexo:nifi-36}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-37.png}
+    \caption{Configuración (Settings) de 'EvaluateJsonPath': 'Name: Extract JSON Attributes'.}
+    \label{anexo:nifi-37}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-38.png}
+    \caption{Configuración (Relationships) de 'EvaluateJsonPath': Terminar "unmatched".}
+    \label{anexo:nifi-38}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-39.png}
+    \caption{Añadiendo el procesador 'RouteOnAttribute'.}
+    \label{anexo:nifi-39}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-40.png}
+    \caption{Configuración (Settings) de 'RouteOnAttribute': 'Name: Validate Required Fields'.}
+    \label{anexo:nifi-40}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-41.png}
+    \caption{Configuración (Relationships) de 'RouteOnAttribute': Terminar "unmatched".}
+    \label{anexo:nifi-41}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-42.png}
+    \caption{Configuración (Properties) de 'RouteOnAttribute': 'Routing Strategy'.}
+    \label{anexo:nifi-42}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-43.png}
+    \caption{Configuración (Properties) de 'RouteOnAttribute': Añadiendo propiedades de validación.}
+    \label{anexo:nifi-43}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-44.png}
+    \caption{Flujo con los tres procesadores iniciales.}
+    \label{anexo:nifi-44}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-45.png}
+    \caption{Creando conexión "matched" entre 'EvaluateJsonPath' y 'RouteOnAttribute'.}
+    \label{anexo:nifi-45}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-46.png}
+    \caption{Accediendo a la configuración de Controller Services del Process Group.}
+    \label{anexo:nifi-46}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-47.png}
+    \caption{Vista de 'Kafka3ConnectionService' habilitado.}
+    \label{anexo:nifi-47}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-48.png}
+    \caption{Añadiendo un nuevo Controller Service: 'JsonTreeReader'.}
+    \label{anexo:nifi-48}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-49.png}
+    \caption{Controller Service 'JsonTreeReader' en estado "Disabled".}
+    \label{anexo:nifi-49}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-50.png}
+    \caption{Habilitando el 'JsonTreeReader'.}
+    \label{anexo:nifi-50}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-51.png}
+    \caption{Confirmación de habilitación del 'JsonTreeReader'.}
+    \label{anexo:nifi-51}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-52.png}
+    \caption{Ambos Controller Services ('JsonTreeReader' y 'Kafka3ConnectionService') habilitados.}
+    \label{anexo:nifi-52}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-53.png}
+    \caption{Añadiendo el procesador 'PutMongoRecord'.}
+    \label{anexo:nifi-53}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-54.png}
+    \caption{Flujo con el procesador 'PutMongoRecord' añadido.}
+    \label{anexo:nifi-54}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-55.png}
+    \caption{Creando conexión "matched" entre 'RouteOnAttribute' y 'PutMongoRecord'.}
+    \label{anexo:nifi-55}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-56.png}
+    \caption{Configuración (Settings) de 'PutMongoRecord': 'Name: Insert to Events Collection'.}
+    \label{anexo:nifi-56}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-57.png}
+    \caption{Configuración (Properties) de 'PutMongoRecord' (vacía).}
+    \label{anexo:nifi-57}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-58.png}
+    \caption{Creando un nuevo Controller Service: 'MongoDBCPService' (obsoleto, se usará otro).}
+    \label{anexo:nifi-58}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-59.png}
+    \caption{Configuración de 'PutMongoRecord' (Properties) - se usará 'MongoDBControllerService'.}
+    \label{anexo:nifi-59}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-60.png}
+    \caption{Aviso de guardado de Controller Service.}
+    \label{anexo:nifi-60}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-61.png}
+    \caption{Accediendo a la configuración del 'MongoDBControllerService'.}
+    \label{anexo:nifi-61}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-62.png}
+    \caption{Editando 'MongoDBControllerService': Pegando la URI de conexión de Atlas.}
+    \label{anexo:nifi-62}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-63.png}
+    \caption{Configuración (Properties) de 'MongoDBControllerService' con la URI.}
+    \label{anexo:nifi-63}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-64.png}
+    \caption{Habilitando el 'MongoDBControllerService'.}
+    \label{anexo:nifi-64}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-65.png}
+    \caption{Confirmación de habilitación del 'MongoDBControllerService'.}
+    \label{anexo:nifi-65}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-66.png}
+    \caption{Habilitando el 'MongoDBControllerService'.}
+    \label{anexo:nifi-66}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-67.png}
+    \caption{Todos los Controller Services habilitados.}
+    \label{anexo:nifi-67}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-68.png}
+    \caption{Configuración de 'PutMongoRecord': 'Mongo Database Name: smartparking', 'Collection: events'.}
+    \label{anexo:nifi-68}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-69.png}
+    \caption{Añadiendo el procesador 'ReplaceText'.}
+    \label{anexo:nifi-69}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-70.png}
+    \caption{Flujo con el procesador 'ReplaceText' añadido.}
+    \label{anexo:nifi-70}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-71.png}
+    \caption{Creando conexión "success" entre 'Insert to Events Collection' y 'ReplaceText'.}
+    \label{anexo:nifi-71}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-72.png}
+    \caption{Configuración (Settings) de 'ReplaceText': 'Name: Prepare Bay Document'.}
+    \label{anexo:nifi-72}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-73.png}
+    \caption{Configuración (Relationships) de 'ReplaceText': Terminar 'failure'.}
+    \label{anexo:nifi-73}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-74.png}
+    \caption{Configuración (Properties) de \texttt{ReplaceText}: \texttt{Replacement Value} (JSON del documento \texttt{bays}).}
+    \label{anexo:nifi-74}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-75.png}
+    \caption{Configuración (Properties) de \texttt{ReplaceText}: \texttt{Search Value: \detokenize{(?s)(^.*$)}}.}
+    \label{anexo:nifi-75}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-76.png}
+    \caption{Añadiendo el procesador 'PutMongo' (para el upsert).}
+    \label{anexo:nifi-76}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-77.png}
+    \caption{Flujo con el procesador 'PutMongo' añadido.}
+    \label{anexo:nifi-77}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-78.png}
+    \caption{Creando conexión "success" entre 'ReplaceText' y 'PutMongo'.}
+    \label{anexo:nifi-78}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-79.png}
+    \caption{Configuración (Settings) de 'PutMongo': 'Name: Upsert to Bays Collection'.}
+    \label{anexo:nifi-79}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-80.png}
+    \caption{Configuración (Relationships) de 'PutMongo': Terminar "failure" y "success".}
+    \label{anexo:nifi-80}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-81.png}
+    \caption{Configuración (Properties) de 'PutMongo': 'Collection: bays', 'Mode: upsert', 'Key: bay_id'.}
+    \label{anexo:nifi-81}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-82.png}
+    \caption{Añadiendo el procesador 'LogAttribute' (para errores).}
+    \label{anexo:nifi-82}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-83.png}
+    \caption{Flujo con el procesador 'LogAttribute' añadido.}
+    \label{anexo:nifi-83}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-84.png}
+    \caption{Creando conexión "failure" entre 'Upsert to Bays Collection' y 'Log Errors'.}
+    \label{anexo:nifi-84}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-85.png}
+    \caption{Configuración (Settings) de 'LogAttribute': 'Name: Log Errors'.}
+    \label{anexo:nifi-85}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-86.png}
+    \caption{Configuración (Relationships) de 'LogAttribute': Terminar "success".}
+    \label{anexo:nifi-86}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-87.png}
+    \caption{Configuración (Properties) de 'LogAttribute': 'Log Level: error'.}
+    \label{anexo:nifi-87}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-88.png}
+    \caption{Configuración (Relationships) de 'Insert to Events Collection': Terminar "failure" y "success".}
+    \label{anexo:nifi-88}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-89.png}
+    \caption{Vista general del flujo de NiFi (incompleta).}
+    \label{anexo:nifi-89}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{04. Fotos NiFi/Nifi-90.png}
+    \caption{Vista general del flujo de datos completo en Apache NiFi.}
+    \label{anexo:nifi-90}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{04. Fotos NiFi/Nifi-91.png}
+    \caption{Datos de la colección 'events' vistos desde MongoDB Atlas.}
+    \label{anexo:nifi-91}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{04. Fotos NiFi/Nifi-92.png}
+    \caption{Datos de la colección 'bays' vistos desde MongoDB Atlas.}
+    \label{anexo:nifi-92}
+\end{figure}
+
+\newpage
+
+% ============================================================
+% ANEXO E: FLASK
+% ============================================================
+\chapter{Anexo E: Aplicación Flask (API y Visualización)}
+\label{anexo:flask}
+
+Despliegue y funcionamiento de la aplicación web de visualización en tiempo real, incluyendo el código fuente principal de la aplicación.
+
+\section{Código de la Aplicación (app.py)}
+
+A continuación, se muestra el código completo de la aplicación Flask, \texttt{app.py}, que gestiona la API REST y la conexión con MongoDB.
+
+\begin{lstlisting}[language=Python, caption={Código fuente de \texttt{app.py}.}]
+"""
+SmartParking Flask Application
+Visualizacion en tiempo real del estado del parking inteligente
+Conecta a MongoDB Atlas para obtener datos actualizados
+"""
+
+from flask import Flask, render_template, jsonify
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
+import os
+from dotenv import load_dotenv
+import logging
+from datetime import datetime
+
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('smartparking.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# Cargar variables de entorno
+load_dotenv()
+
+# Crear aplicacion Flask
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config['JSON_SORT_KEYS'] = False
+
+# Configuracion de MongoDB
+MONGO_URI = os.getenv('MONGO_URI')
+MONGO_DB = os.getenv('MONGO_DB', 'smartparking')
+
+# Conectar a MongoDB Atlas
+db = None
+try:
+    client = MongoClient(
+        MONGO_URI,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=10000,
+        socketTimeoutMS=10000
+    )
+    # Verificar conexion
+    client.admin.command('ping')
+    db = client[MONGO_DB]
+    logger.info(f"V Conectado exitosamente a MongoDB Atlas - Base de datos: {MONGO_DB}")
+except ConnectionFailure as e:
+    logger.error(f"X Error de conexion a MongoDB Atlas: {e}")
+    db = None
+except Exception as e:
+    logger.error(f"X Error inesperado conectando a MongoDB: {e}")
+    db = None
+
+
+# ==================== RUTAS DE LA APLICACION ====================
+
+@app.route('/')
+def index():
+    """
+    Pagina principal - Mapa visual del parking
+    """
+    return render_template('index.html')
+
+
+@app.route('/api/health')
+def health_check():
+    """
+    Endpoint de health check para verificar estado del servicio
+    
+    Returns:
+        JSON con estado del servicio y conexion a BD
+    """
+    if db is None:
+        return jsonify({
+            "status": "unhealthy",
+            "database": "disconnected",
+            "timestamp": datetime.now().isoformat()
+        }), 503
+    
+    try:
+        db.command('ping')
+        total_bays = db.bays.count_documents({})
+        total_events = db.events.count_documents({})
+        
+        return jsonify({
+            "status": "healthy",
+            "database": "connected",
+            "total_bays": total_bays,
+            "total_events": total_events,
+            "timestamp": datetime.now().isoformat()
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error en health check: {e}")
+        return jsonify({
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }), 503
+
+
+@app.route('/api/bays')
+def get_bays():
+    """
+    Obtener todas las plazas del parking
+    
+    Returns:
+        JSON con array de plazas ordenadas por bay_id
+    """
+    if db is None:
+        logger.error("Base de datos no disponible")
+        return jsonify({"error": "Database connection not available"}), 503
+    
+    try:
+        # Query optimizada con proyeccion
+        bays = list(db.bays.find(
+            {},
+            {
+                '_id': 0,
+                'bay_id': 1,
+                'parking_id': 1,
+                'level': 1,
+                'occupied': 1,
+                'last_event_ts': 1,
+                'metrics': 1,
+                'updated_at': 1
+            }
+        ).sort('bay_id', 1))
+        
+        logger.info(f"API /api/bays: Retornadas {len(bays)} plazas")
+        
+        return jsonify({
+            "success": True,
+            "count": len(bays),
+            "data": bays,
+            "timestamp": datetime.now().isoformat()
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error en /api/bays: {e}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+
+@app.route('/api/stats')
+def get_stats():
+    """
+    Obtener estadisticas generales del parking
+    
+    Returns:
+        JSON con total, ocupadas, libres, porcentaje y estadisticas por nivel
+    """
+    if db is None:
+        logger.error("Base de datos no disponible")
+        return jsonify({"error": "Database connection not available"}), 503
+    
+    try:
+        # Estadisticas generales
+        total = db.bays.count_documents({})
+        occupied = db.bays.count_documents({"occupied": True})
+        free = total - occupied
+        occupancy_rate = round((occupied / total * 100), 2) if total > 0 else 0
+        
+        # Estadisticas por nivel usando agregacion
+        pipeline = [
+            {
+                "$group": {
+                    "_id": "$level",
+                    "total": {"$sum": 1},
+                    "occupied": {
+                        "$sum": {"$cond": ["$occupied", 1, 0]}
+                    },
+                    "free": {
+                        "$sum": {"$cond": ["$occupied", 0, 1]}
+                    },
+                    "avg_temperature": {"$avg": "$metrics.temperature_c"},
+                    "avg_battery": {"$avg": "$metrics.battery_pct"},
+                    "low_battery_count": {
+                        "$sum": {
+                            "$cond": [
+                                {"$lt": ["$metrics.battery_pct", 20]},
+                                1,
+                                0
+                            ]
+                        }
+                    }
+                }
+            },
+            {"$sort": {"_id": 1}}
+        ]
+        
+        by_level = list(db.bays.aggregate(pipeline))
+        
+        # Formatear resultados por nivel
+        levels_stats = []
+        for level in by_level:
+            levels_stats.append({
+                "level": level["_id"],
+                "total": level["total"],
+                "occupied": level["occupied"],
+                "free": level["free"],
+                "occupancy_rate": round((level["occupied"] / level["total"] * 100), 2) if level["total"] > 0 else 0,
+                "avg_temperature": round(level["avg_temperature"], 1) if level["avg_temperature"] else None,
+                "avg_battery": round(level["avg_battery"], 1) if level["avg_battery"] else None,
+                "low_battery_sensors": level["low_battery_count"]
+            })
+        
+        stats = {
+            "success": True,
+            "total": total,
+            "occupied": occupied,
+            "free": free,
+            "occupancy_rate": occupancy_rate,
+            "levels": levels_stats,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        logger.info(f"API /api/stats: {occupied}/{total} ocupadas ({occupancy_rate}%)")
+        
+        return jsonify(stats), 200
+        
+    except Exception as e:
+        logger.error(f"Error en /api/stats: {e}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+
+@app.route('/api/bays/level/<level>')
+def get_bays_by_level(level):
+    """
+    Obtener plazas de un nivel especifico
+    
+    Args:
+        level (str): Nivel del parking (L1, L2, L3, etc.)
+    
+    Returns:
+        JSON con array de plazas del nivel solicitado
+    """
+    if db is None:
+        return jsonify({"error": "Database connection not available"}), 503
+    
+    try:
+        level_upper = level.upper()
+        
+        bays = list(db.bays.find(
+            {"level": level_upper},
+            {'_id': 0}
+        ).sort('bay_id', 1))
+        
+        if not bays:
+            logger.warning(f"No se encontraron plazas para nivel {level_upper}")
+            return jsonify({
+                "success": True,
+                "level": level_upper,
+                "count": 0,
+                "data": [],
+                "message": f"No hay plazas en el nivel {level_upper}"
+            }), 200
+        
+        logger.info(f"API /api/bays/level/{level_upper}: {len(bays)} plazas")
+        
+        return jsonify({
+            "success": True,
+            "level": level_upper,
+            "count": len(bays),
+            "data": bays
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error en /api/bays/level/{level}: {e}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+
+@app.route('/api/maintenance/low-battery')
+def get_low_battery_bays():
+    """
+    Obtener plazas con bateria baja que requieren mantenimiento
+    
+    Returns:
+        JSON con plazas que tienen bateria < 20%
+    """
+    if db is None:
+        return jsonify({"error": "Database connection not available"}), 503
+    
+    try:
+        low_battery_threshold = 20
+        
+        low_battery_bays = list(db.bays.find(
+            {"metrics.battery_pct": {"$lt": low_battery_threshold}},
+            {'_id': 0}
+        ).sort('metrics.battery_pct', 1))
+        
+        # Clasificar por prioridad
+        urgent = [b for b in low_battery_bays if b['metrics']['battery_pct'] < 10]
+        high = [b for b in low_battery_bays if 10 <= b['metrics']['battery_pct'] < 20]
+        
+        logger.warning(f"Mantenimiento: {len(low_battery_bays)} sensores con bateria baja")
+        
+        return jsonify({
+            "success": True,
+            "total_count": len(low_battery_bays),
+            "urgent_count": len(urgent),
+            "high_priority_count": len(high),
+            "urgent": urgent,
+            "high_priority": high,
+            "threshold": low_battery_threshold
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error en /api/maintenance/low-battery: {e}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+
+# ==================== MANEJADORES DE ERRORES ====================
+
+@app.errorhandler(404)
+def not_found(error):
+    """Manejador para errores 404"""
+    return jsonify({
+        "success": False,
+        "error": "Endpoint no encontrado",
+        "code": 404
+    }), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    """Manejador para errores 500"""
+    logger.error(f"Error interno del servidor: {error}")
+    return jsonify({
+        "success": False,
+        "error": "Error interno del servidor",
+        "code": 500
+    }), 500
+
+
+@app.errorhandler(503)
+def service_unavailable(error):
+    """Manejador para errores 503"""
+    return jsonify({
+        "success": False,
+        "error": "Servicio no disponible",
+        "code": 503
+    }), 503
+
+
+# ==================== PUNTO DE ENTRADA ====================
+
+if __name__ == '__main__':
+    logger.info("=" * 60)
+    logger.info("Iniciando SmartParking Flask Application")
+    logger.info("=" * 60)
+    logger.info(f"Base de datos: {MONGO_DB}")
+    logger.info(f"Servidor: http://localhost:5000")
+    logger.info("=" * 60)
+    
+    # Ejecutar aplicacion
+    app.run(
+        host='localhost',
+        port=5000,
+        debug=True
+    )
+\end{lstlisting}
+
+\newpage
+\section{Despliegue y Funcionamiento}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{05. Fotos Flask/Flask-01.png}
+    \caption{Instalación de dependencias de Python (\texttt{requirements.txt}).}
+    \label{anexo:flask-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{05. Fotos Flask/Flask-02.png}
+    \caption{Contenido del archivo de variables de entorno ('.env.template').}
+    \label{anexo:flask-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{05. Fotos Flask/Flask-03.png}
+    \caption{Ejecución del servidor Flask ('python app.py').}
+    \label{anexo:flask-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{05. Fotos Flask/Flask-04.png}
+    \caption{Interfaz web de SmartParking mostrando el estado en tiempo real.}
+    \label{anexo:flask-04}
+\end{figure}
+
+\newpage
+
+% ============================================================
+% ANEXO F: DREMIO
+% ============================================================
+\chapter{Anexo F: Consultas de Análisis en Dremio}
+\label{anexo:dremio}
+
+Instalación, configuración y conexión de Dremio a la fuente de datos de MongoDB Atlas para la ejecución de consultas SQL de análisis descriptivo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-01.png}
+    \caption{Descarga de Dremio Community ('wget').}
+    \label{anexo:dremio-01}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-02.png}
+    \caption{Descompresión, inicio del servicio ('dremio start') y comprobación de logs.}
+    \label{anexo:dremio-02}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-03.png}
+    \caption{Creación de la cuenta de administrador en la interfaz web de Dremio.}
+    \label{anexo:dremio-03}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-04.png}
+    \caption{Panel principal de Dremio (Datasets).}
+    \label{anexo:dremio-04}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-05.png}
+    \caption{Añadiendo una nueva fuente de datos (Add Data Source): MongoDB.}
+    \label{anexo:dremio-05}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-06.png}
+    \caption{Configuración de la fuente "MongoDB Source": Host y Puerto.}
+    \label{anexo:dremio-06}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-07.png}
+    \caption{Configuración de la autenticación de la fuente "MongoDB Source".}
+    \label{anexo:dremio-07}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-08.png}
+    \caption{Fuente de datos "MongoDBAtlas" conectada, mostrando la base de datos 'smartparking'.}
+    \label{anexo:dremio-08}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-09.png}
+    \caption{Navegando en las colecciones 'bays' y 'events' dentro de Dremio.}
+    \label{anexo:dremio-09}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-10.png}
+    \caption{Consulta SQL 1: Ocupación actual por nivel.}
+    \label{anexo:dremio-10}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-11.png}
+    \caption{Guardando la consulta (View) como "Ocupacion Actual por Nivel".}
+    \label{anexo:dremio-11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-12.png}
+    \caption{Consulta SQL 2: Porcentaje de ocupación por nivel.}
+    \label{anexo:dremio-12}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-13.png}
+    \caption{Consulta SQL 3: Plazas con nivel bajo de batería (mantenimiento).}
+    \label{anexo:dremio-13}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-14.png}
+    \caption{Consulta SQL 4: Horas del día con mayor número de eventos de ocupación.}
+    \label{anexo:dremio-14}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-15.png}
+    \caption{Consulta SQL 5: Plazas más ocupadas (Top 10).}
+    \label{anexo:dremio-15}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-16.png}
+    \caption{Resultado de la consulta SQL 5, mostrando las plazas con más eventos.}
+    \label{anexo:dremio-16}
+\end{figure}
+
+\end{document}

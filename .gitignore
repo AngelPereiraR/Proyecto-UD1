@@ -1,0 +1,4 @@
+# Ignore everything in the build folder except PDF files (keep the generated PDF)
+/build/*
+!/build/*.pdf
+!/build/*.PDF
