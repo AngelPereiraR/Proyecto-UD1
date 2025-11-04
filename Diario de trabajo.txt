@@ -5,4 +5,5 @@ Lunes 20 de octubre (2,5 horas): Configuración del flujo de trabajo de NiFi: Re
 Domingo 28 de octubre (2 horas): Instalación de Flask, creación del proyecto y funcionamiento de la página web.
 Sábado 1 de noviembre (2,5 horas): Troubleshooting de NiFi e instalación y configuración de consultas de Dremio.
 Domingo 2 de noviembre (4 horas): Comienzo de la creación de la memoria (Índice y primeros apartados).
-Lunes 3 de noviembre (2,5 horas): Configuración de LateX en local y continuación de la memoria (Anexos al completo)
+Lunes 3 de noviembre (2,5 horas): Configuración de LateX en local y continuación de la memoria (Anexos al completo).
+Martes 4 de noviembre (1 hora): Finalización de la memoria (Implementación, Pruebas, Conclusiones, Bibliografía y revisión completa).
