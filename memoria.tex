@@ -448,7 +448,7 @@ Finalmente, para cumplir con los requisitos de análisis (RF-08), se implementó
         \item Ocupación actual por nivel (Figura \ref{anexo:dremio-10}).
         \item Listado de sensores con batería baja (Figura \ref{anexo:dremio-13}).
         \item Análisis de horas punta (Figura \ref{anexo:dremio-14}).
-        \item Top 10 de plazas más utilizadas (Figuras \ref{anexo:dremio-15} y \ref{anexo:dremio-16}).
+        \item Top 10 de plazas más utilizadas (Figura \ref{anexo:dremio-15}).
     \end{itemize}
 \end{itemize}
 
@@ -575,7 +575,6 @@ El sistema actual sienta las bases para numerosas mejoras y expansiones. A conti
 % ============================================================
 % BIBLIOGRAFÍA
 % ============================================================
-\chapter{Bibliografía}
 \addcontentsline{toc}{chapter}{Bibliografía}
 
 \begin{thebibliography}{9}
@@ -588,7 +587,7 @@ Disponible en: \url{https://kafka.apache.org/documentation/}
 \bibitem{nifi}
 Documentación oficial de Apache NiFi.
 \textit{Apache Software Foundation}.
-Disponible en: \url{https://nifi.apache.org/documentation.html}
+Disponible en: \url{https://nifi.apache.org/docs/nifi-docs/}
 
 \bibitem{mongodb}
 Documentación oficial de MongoDB Atlas.
@@ -1190,14 +1189,14 @@ Proceso de creación de la cuenta, despliegue del cluster, configuración de la 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-45.png}
-    \caption{Vista del documento 'TEST-001' en Data Explorer.}
+    \caption{Documento 'TEST-001' marcado para eliminación parte 1.}
     \label{anexo:mongo-45}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{02. Fotos MongoDB/MongoDB-46.png}
-    \caption{Documento 'TEST-001' marcado para eliminación.}
+    \caption{Documento 'TEST-001' marcado para eliminación parte 2.}
     \label{anexo:mongo-46}
 \end{figure}
 
@@ -1483,28 +1482,28 @@ Instalación, configuración y diseño del \textit{pipeline} de datos en Apache 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-04.png}
-    \caption{Editando 'nifi.properties': 'nifi.web.http.host=0.0.0.0'.}
+    \caption{Editando 'nifi.properties' parte 1.}
     \label{anexo:nifi-04}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-05.png}
-    \caption{Editando 'nifi.properties': 'nifi.sensitive.props.key'.}
+    \caption{Editando 'nifi.properties' parte 2.}
     \label{anexo:nifi-05}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-06.png}
-    \caption{Editando 'nifi.properties': 'nifi.remote.input.host'.}
+    \caption{Editando 'nifi.properties' parte 3.}
     \label{anexo:nifi-06}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-07.png}
-    \caption{Editando 'nifi.properties': 'nifi.security.user.authorizer'.}
+    \caption{Editando 'nifi.properties' parte 4.}
     \label{anexo:nifi-07}
 \end{figure}
 
@@ -1861,7 +1860,7 @@ Instalación, configuración y diseño del \textit{pipeline} de datos en Apache 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{04. Fotos NiFi/Nifi-58.png}
-    \caption{Creando un nuevo Controller Service: 'MongoDBCPService' (obsoleto, se usará otro).}
+    \caption{Creando un nuevo Controller Service: 'MongoDBControllerService'.}
     \label{anexo:nifi-58}
 \end{figure}
 
@@ -3523,7 +3522,7 @@ Instalación, configuración y conexión de Dremio a la fuente de datos de Mongo
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{06. Fotos Dremio/Dremio-16.png}
-    \caption{Resultado de la consulta SQL 5, mostrando las plazas con más eventos.}
+    \caption{Muestra de todas las consultas guardadas (Views) en Dremio.}
     \label{anexo:dremio-16}
 \end{figure}
 
